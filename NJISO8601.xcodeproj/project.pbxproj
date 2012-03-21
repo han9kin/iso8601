@@ -1,0 +1,540 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CFB1B8021519734800176C89 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB1B8011519734800176C89 /* UIKit.framework */; };
+		CFB1B8041519734800176C89 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB1B8031519734800176C89 /* Foundation.framework */; };
+		CFB1B8061519734800176C89 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB1B8051519734800176C89 /* CoreGraphics.framework */; };
+		CFB1B80C1519734800176C89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFB1B80A1519734800176C89 /* InfoPlist.strings */; };
+		CFB1B80E1519734900176C89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B80D1519734900176C89 /* main.m */; };
+		CFB1B8121519734900176C89 /* NJAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B8111519734900176C89 /* NJAppDelegate.m */; };
+		CFB1B8151519734900176C89 /* NJViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B8141519734900176C89 /* NJViewController.m */; };
+		CFB1B8181519734900176C89 /* NJViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFB1B8161519734900176C89 /* NJViewController.xib */; };
+		CFB1B8201519734900176C89 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB1B81F1519734900176C89 /* SenTestingKit.framework */; };
+		CFB1B8211519734900176C89 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB1B8011519734800176C89 /* UIKit.framework */; };
+		CFB1B8221519734900176C89 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB1B8031519734800176C89 /* Foundation.framework */; };
+		CFB1B82A1519734900176C89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFB1B8281519734900176C89 /* InfoPlist.strings */; };
+		CFB1B82D1519734900176C89 /* NJISO8601Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B82C1519734900176C89 /* NJISO8601Tests.m */; };
+		CFB1B8381519736C00176C89 /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B8371519736C00176C89 /* ISO8601DateFormatter.m */; };
+		CFB1B85B1519AFE300176C89 /* NJISO8601Parser.re in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B85A1519AFE300176C89 /* NJISO8601Parser.re */; };
+		CFB1B85C1519B6C600176C89 /* NJISO8601Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B83B1519738300176C89 /* NJISO8601Formatter.m */; };
+		CFB1B862151AF4A500176C89 /* UNIX2003.c in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B860151AF48200176C89 /* UNIX2003.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		CFB1B8591519AEBD00176C89 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.re";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			name = "Files '*.re' using Script";
+			outputFiles = (
+				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE)Def.h",
+				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE).m",
+			);
+			script = "\"${SRCROOT}/Tools/re2c\" -bc -t \"${DERIVED_FILES_DIR}/${INPUT_FILE_BASE}Def.h\" -o \"${DERIVED_FILES_DIR}/${INPUT_FILE_BASE}.m\" \"${INPUT_FILE_PATH}\"\n";
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXContainerItemProxy section */
+		CFB1B8231519734900176C89 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFB1B7F41519734800176C89 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CFB1B7FC1519734800176C89;
+			remoteInfo = NJISO8601;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		CFB1B7FD1519734800176C89 /* NJISO8601.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NJISO8601.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFB1B8011519734800176C89 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		CFB1B8031519734800176C89 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CFB1B8051519734800176C89 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		CFB1B8091519734800176C89 /* NJISO8601-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NJISO8601-Info.plist"; sourceTree = "<group>"; };
+		CFB1B80B1519734800176C89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CFB1B80D1519734900176C89 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		CFB1B80F1519734900176C89 /* NJISO8601-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NJISO8601-Prefix.pch"; sourceTree = "<group>"; };
+		CFB1B8101519734900176C89 /* NJAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NJAppDelegate.h; sourceTree = "<group>"; };
+		CFB1B8111519734900176C89 /* NJAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NJAppDelegate.m; sourceTree = "<group>"; };
+		CFB1B8131519734900176C89 /* NJViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NJViewController.h; sourceTree = "<group>"; };
+		CFB1B8141519734900176C89 /* NJViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NJViewController.m; sourceTree = "<group>"; };
+		CFB1B8171519734900176C89 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/NJViewController.xib; sourceTree = "<group>"; };
+		CFB1B81E1519734900176C89 /* NJISO8601Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NJISO8601Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFB1B81F1519734900176C89 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		CFB1B8271519734900176C89 /* NJISO8601Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NJISO8601Tests-Info.plist"; sourceTree = "<group>"; };
+		CFB1B8291519734900176C89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CFB1B82B1519734900176C89 /* NJISO8601Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NJISO8601Tests.h; sourceTree = "<group>"; };
+		CFB1B82C1519734900176C89 /* NJISO8601Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NJISO8601Tests.m; sourceTree = "<group>"; };
+		CFB1B8361519736C00176C89 /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISO8601DateFormatter.h; sourceTree = "<group>"; };
+		CFB1B8371519736C00176C89 /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISO8601DateFormatter.m; sourceTree = "<group>"; };
+		CFB1B83A1519738300176C89 /* NJISO8601Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJISO8601Formatter.h; sourceTree = "<group>"; };
+		CFB1B83B1519738300176C89 /* NJISO8601Formatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJISO8601Formatter.m; sourceTree = "<group>"; };
+		CFB1B85A1519AFE300176C89 /* NJISO8601Parser.re */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NJISO8601Parser.re; sourceTree = "<group>"; };
+		CFB1B860151AF48200176C89 /* UNIX2003.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UNIX2003.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CFB1B7FA1519734800176C89 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFB1B8021519734800176C89 /* UIKit.framework in Frameworks */,
+				CFB1B8041519734800176C89 /* Foundation.framework in Frameworks */,
+				CFB1B8061519734800176C89 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFB1B81A1519734900176C89 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFB1B8201519734900176C89 /* SenTestingKit.framework in Frameworks */,
+				CFB1B8211519734900176C89 /* UIKit.framework in Frameworks */,
+				CFB1B8221519734900176C89 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CFB1B7F21519734800176C89 = {
+			isa = PBXGroup;
+			children = (
+				CFB1B8071519734800176C89 /* NJISO8601 */,
+				CFB1B8251519734900176C89 /* NJISO8601Tests */,
+				CFB1B8001519734800176C89 /* Frameworks */,
+				CFB1B7FE1519734800176C89 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CFB1B7FE1519734800176C89 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CFB1B7FD1519734800176C89 /* NJISO8601.app */,
+				CFB1B81E1519734900176C89 /* NJISO8601Tests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CFB1B8001519734800176C89 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CFB1B8011519734800176C89 /* UIKit.framework */,
+				CFB1B8031519734800176C89 /* Foundation.framework */,
+				CFB1B8051519734800176C89 /* CoreGraphics.framework */,
+				CFB1B81F1519734900176C89 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CFB1B8071519734800176C89 /* NJISO8601 */ = {
+			isa = PBXGroup;
+			children = (
+				CFB1B85A1519AFE300176C89 /* NJISO8601Parser.re */,
+				CFB1B83A1519738300176C89 /* NJISO8601Formatter.h */,
+				CFB1B83B1519738300176C89 /* NJISO8601Formatter.m */,
+				CFB1B8361519736C00176C89 /* ISO8601DateFormatter.h */,
+				CFB1B8371519736C00176C89 /* ISO8601DateFormatter.m */,
+				CFB1B8101519734900176C89 /* NJAppDelegate.h */,
+				CFB1B8111519734900176C89 /* NJAppDelegate.m */,
+				CFB1B8131519734900176C89 /* NJViewController.h */,
+				CFB1B8141519734900176C89 /* NJViewController.m */,
+				CFB1B8161519734900176C89 /* NJViewController.xib */,
+				CFB1B8081519734800176C89 /* Supporting Files */,
+			);
+			path = NJISO8601;
+			sourceTree = "<group>";
+		};
+		CFB1B8081519734800176C89 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CFB1B8091519734800176C89 /* NJISO8601-Info.plist */,
+				CFB1B80A1519734800176C89 /* InfoPlist.strings */,
+				CFB1B80D1519734900176C89 /* main.m */,
+				CFB1B80F1519734900176C89 /* NJISO8601-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CFB1B8251519734900176C89 /* NJISO8601Tests */ = {
+			isa = PBXGroup;
+			children = (
+				CFB1B82B1519734900176C89 /* NJISO8601Tests.h */,
+				CFB1B82C1519734900176C89 /* NJISO8601Tests.m */,
+				CFB1B8261519734900176C89 /* Supporting Files */,
+			);
+			path = NJISO8601Tests;
+			sourceTree = "<group>";
+		};
+		CFB1B8261519734900176C89 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				CFB1B860151AF48200176C89 /* UNIX2003.c */,
+				CFB1B8271519734900176C89 /* NJISO8601Tests-Info.plist */,
+				CFB1B8281519734900176C89 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CFB1B7FC1519734800176C89 /* NJISO8601 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFB1B8301519734900176C89 /* Build configuration list for PBXNativeTarget "NJISO8601" */;
+			buildPhases = (
+				CFB1B7F91519734800176C89 /* Sources */,
+				CFB1B7FA1519734800176C89 /* Frameworks */,
+				CFB1B7FB1519734800176C89 /* Resources */,
+			);
+			buildRules = (
+				CFB1B8591519AEBD00176C89 /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = NJISO8601;
+			productName = NJISO8601;
+			productReference = CFB1B7FD1519734800176C89 /* NJISO8601.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CFB1B81D1519734900176C89 /* NJISO8601Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFB1B8331519734900176C89 /* Build configuration list for PBXNativeTarget "NJISO8601Tests" */;
+			buildPhases = (
+				CFB1B8191519734900176C89 /* Sources */,
+				CFB1B81A1519734900176C89 /* Frameworks */,
+				CFB1B81B1519734900176C89 /* Resources */,
+				CFB1B81C1519734900176C89 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CFB1B8241519734900176C89 /* PBXTargetDependency */,
+			);
+			name = NJISO8601Tests;
+			productName = NJISO8601Tests;
+			productReference = CFB1B81E1519734900176C89 /* NJISO8601Tests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CFB1B7F41519734800176C89 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = NJ;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = NHN;
+			};
+			buildConfigurationList = CFB1B7F71519734800176C89 /* Build configuration list for PBXProject "NJISO8601" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = CFB1B7F21519734800176C89;
+			productRefGroup = CFB1B7FE1519734800176C89 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CFB1B7FC1519734800176C89 /* NJISO8601 */,
+				CFB1B81D1519734900176C89 /* NJISO8601Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CFB1B7FB1519734800176C89 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFB1B80C1519734800176C89 /* InfoPlist.strings in Resources */,
+				CFB1B8181519734900176C89 /* NJViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFB1B81B1519734900176C89 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFB1B82A1519734900176C89 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CFB1B81C1519734900176C89 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CFB1B7F91519734800176C89 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFB1B85B1519AFE300176C89 /* NJISO8601Parser.re in Sources */,
+				CFB1B80E1519734900176C89 /* main.m in Sources */,
+				CFB1B8121519734900176C89 /* NJAppDelegate.m in Sources */,
+				CFB1B8151519734900176C89 /* NJViewController.m in Sources */,
+				CFB1B8381519736C00176C89 /* ISO8601DateFormatter.m in Sources */,
+				CFB1B85C1519B6C600176C89 /* NJISO8601Formatter.m in Sources */,
+				CFB1B862151AF4A500176C89 /* UNIX2003.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CFB1B8191519734900176C89 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFB1B82D1519734900176C89 /* NJISO8601Tests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CFB1B8241519734900176C89 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CFB1B7FC1519734800176C89 /* NJISO8601 */;
+			targetProxy = CFB1B8231519734900176C89 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CFB1B80A1519734800176C89 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CFB1B80B1519734800176C89 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CFB1B8161519734900176C89 /* NJViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CFB1B8171519734900176C89 /* en */,
+			);
+			name = NJViewController.xib;
+			sourceTree = "<group>";
+		};
+		CFB1B8281519734900176C89 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CFB1B8291519734900176C89 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CFB1B82E1519734900176C89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		CFB1B82F1519734900176C89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CFB1B8311519734900176C89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NJISO8601/NJISO8601-Prefix.pch";
+				INFOPLIST_FILE = "NJISO8601/NJISO8601-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		CFB1B8321519734900176C89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NJISO8601/NJISO8601-Prefix.pch";
+				INFOPLIST_FILE = "NJISO8601/NJISO8601-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		CFB1B8341519734900176C89 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/NJISO8601.app/NJISO8601";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NJISO8601/NJISO8601-Prefix.pch";
+				INFOPLIST_FILE = "NJISO8601Tests/NJISO8601Tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		CFB1B8351519734900176C89 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/NJISO8601.app/NJISO8601";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NJISO8601/NJISO8601-Prefix.pch";
+				INFOPLIST_FILE = "NJISO8601Tests/NJISO8601Tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+		CFB1B85D151AF42400176C89 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				"GCC_GENERATE_TEST_COVERAGE_FILES[sdk=iphonesimulator*]" = YES;
+				"GCC_INSTRUMENT_PROGRAM_FLOW_ARCS[sdk=iphonesimulator*]" = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Profile;
+		};
+		CFB1B85E151AF42400176C89 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NJISO8601/NJISO8601-Prefix.pch";
+				INFOPLIST_FILE = "NJISO8601/NJISO8601-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Profile;
+		};
+		CFB1B85F151AF42400176C89 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/NJISO8601.app/NJISO8601";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NJISO8601/NJISO8601-Prefix.pch";
+				INFOPLIST_FILE = "NJISO8601Tests/NJISO8601Tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Profile;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CFB1B7F71519734800176C89 /* Build configuration list for PBXProject "NJISO8601" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFB1B82E1519734900176C89 /* Debug */,
+				CFB1B85D151AF42400176C89 /* Profile */,
+				CFB1B82F1519734900176C89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFB1B8301519734900176C89 /* Build configuration list for PBXNativeTarget "NJISO8601" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFB1B8311519734900176C89 /* Debug */,
+				CFB1B85E151AF42400176C89 /* Profile */,
+				CFB1B8321519734900176C89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFB1B8331519734900176C89 /* Build configuration list for PBXNativeTarget "NJISO8601Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFB1B8341519734900176C89 /* Debug */,
+				CFB1B85F151AF42400176C89 /* Profile */,
+				CFB1B8351519734900176C89 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CFB1B7F41519734800176C89 /* Project object */;
+}
