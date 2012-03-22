@@ -364,24 +364,7 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
 }
 
 
-- (void)testISO8601DateFormatter
-{
-    ISO8601DateFormatter *sFormatter = [[[ISO8601DateFormatter alloc] init] autorelease];
-    NSDate               *sDate;
-    CFAbsoluteTime        sTime;
-
-    sTime = CFAbsoluteTimeGetCurrent();
-
-    for (int i = 0; gTestStrings[i][0]; i++)
-    {
-        sDate = [sFormatter dateFromString:gTestStrings[i][0]];
-    }
-
-    NSLog(@"Total Parse Time: %f", (CFAbsoluteTimeGetCurrent() - sTime));
-}
-
-
-- (void)testNJISO8601Formatter
+- (void)testDateFromString
 {
     NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
     NSDate             *sDate;
@@ -395,7 +378,21 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
         STAssertTrue([gTestStrings[i][1] isEqualToString:[gDefaultDateFormatter stringFromDate:sDate]], @"%@ == %@ => %@", gTestStrings[i][0], gTestStrings[i][1], [gDefaultDateFormatter stringFromDate:sDate]);
     }
 
-    NSLog(@"Total Parse Time: %f", (CFAbsoluteTimeGetCurrent() - sTime));
+    NSLog(@"NJISO8601Formatter Total Parse Time: %f", (CFAbsoluteTimeGetCurrent() - sTime));
+}
+
+
+- (void)testDistantYear
+{
+    NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
+    NSDate             *sDate;
+    NSString           *sString;
+
+    sDate = [sFormatter dateFromString:@"+12345-06-17T12:34:56,789+01:00"];
+    STAssertNotNil(sDate, @"");
+
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+12345-06-17T11:34:57Z"], @"%@", sString);
 }
 
 
@@ -470,20 +467,6 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
     STAssertFalse([sFormatter getObjectValue:NULL forString:nil errorDescription:NULL], @"");
     STAssertFalse([sFormatter getObjectValue:NULL forString:nil errorDescription:&sError], @"");
     STAssertNotNil(sError, @"");
-}
-
-
-- (void)testDistantYear
-{
-    NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
-    NSDate             *sDate;
-    NSString           *sString;
-
-    sDate = [sFormatter dateFromString:@"+12345-06-17T12:34:56,789+01:00"];
-    STAssertNotNil(sDate, @"");
-
-    sString = [sFormatter stringFromDate:sDate];
-    STAssertTrue([sString isEqualToString:@"+12345-06-17T11:34:57Z"], @"%@", sString);
 }
 
 
@@ -580,7 +563,24 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
         sDate = [sFormatter dateFromString:gTestStrings[i][0]];
     }
 
-    NSLog(@"Total Parse Time: %f", (CFAbsoluteTimeGetCurrent() - sTime));
+    NSLog(@"NSDateFormatter Total Parse Time: %f", (CFAbsoluteTimeGetCurrent() - sTime));
+}
+
+
+- (void)testISO8601DateFormatter
+{
+    ISO8601DateFormatter *sFormatter = [[[ISO8601DateFormatter alloc] init] autorelease];
+    NSDate               *sDate;
+    CFAbsoluteTime        sTime;
+
+    sTime = CFAbsoluteTimeGetCurrent();
+
+    for (int i = 0; gTestStrings[i][0]; i++)
+    {
+        sDate = [sFormatter dateFromString:gTestStrings[i][0]];
+    }
+
+    NSLog(@"ISO8601DateFormatter Total Parse Time: %f", (CFAbsoluteTimeGetCurrent() - sTime));
 }
 
 

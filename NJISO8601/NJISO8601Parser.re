@@ -10,8 +10,7 @@
 #import "NJISO8601ParserDef.h"
 
 
-#define NJISO8601ParseGetCondition()           sCondition
-#define NJISO8601ParseSetCondition(aCondition) sCondition = aCondition
+id NJISO8601ParseString(NSString *aString, NSString **aError);
 
 
 static int NJIntFromString(const unsigned char *aString, int aDigits)
@@ -73,6 +72,10 @@ static NSDate *NJDateFromGregorianDateWithTimeZoneOffset(CFGregorianDate aGregor
         return nil;
     }
 }
+
+
+#define NJISO8601ParseGetCondition()           sCondition
+#define NJISO8601ParseSetCondition(aCondition) sCondition = aCondition
 
 
 id NJISO8601ParseString(NSString *aString, NSString **aError)
