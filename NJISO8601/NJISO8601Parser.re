@@ -156,19 +156,19 @@ id NJISO8601ParseString(NSString *aString, NSString **aError)
                 continue;
             }
 
-        <DateBegin> DIGIT{4} DIGIT{2} DIGIT{2} => DateEnd
-            {
-                sGregorianDate.year   = NJIntFromString(sMatch, 4);
-                sGregorianDate.month  = NJIntFromString(sMatch + 4, 2);
-                sGregorianDate.day    = NJIntFromString(sMatch + 6, 2);
-                continue;
-            }
-
         <DateBegin> DIGIT{4} HYPHEN DIGIT{2} => DateEnd
             {
                 sGregorianDate.year   = NJIntFromString(sMatch, 4);
                 sGregorianDate.month  = NJIntFromString(sMatch + 5, 2);
                 sGregorianDate.day    = 1;
+                continue;
+            }
+
+        <DateBegin> DIGIT{4} DIGIT{2} DIGIT{2} => DateEnd
+            {
+                sGregorianDate.year   = NJIntFromString(sMatch, 4);
+                sGregorianDate.month  = NJIntFromString(sMatch + 4, 2);
+                sGregorianDate.day    = NJIntFromString(sMatch + 6, 2);
                 continue;
             }
 
@@ -190,16 +190,6 @@ id NJISO8601ParseString(NSString *aString, NSString **aError)
                 continue;
             }
 
-        <DateBegin> SIGN DIGIT{4,} DIGIT{2} DIGIT{2} => DateEnd
-            {
-                int sYearDigits       = sCursor - sMatch - 5;
-                sGregorianDate.year   = NJIntFromString(sMatch + 1, sYearDigits);
-                sGregorianDate.year  *= (*sMatch == '+') ? 1 : -1;
-                sGregorianDate.month  = NJIntFromString(sMatch + sYearDigits + 1, 2);
-                sGregorianDate.day    = NJIntFromString(sMatch + sYearDigits + 3, 2);
-                continue;
-            }
-
         <DateBegin> SIGN DIGIT{4,} HYPHEN DIGIT{2} => DateEnd
             {
                 int sYearDigits       = sCursor - sMatch - 4;
@@ -207,6 +197,16 @@ id NJISO8601ParseString(NSString *aString, NSString **aError)
                 sGregorianDate.year  *= (*sMatch == '+') ? 1 : -1;
                 sGregorianDate.month  = NJIntFromString(sMatch + sYearDigits + 2, 2);
                 sGregorianDate.day    = 1;
+                continue;
+            }
+
+        <DateBegin> SIGN DIGIT{4,} DIGIT{2} DIGIT{2} => DateEnd
+            {
+                int sYearDigits       = sCursor - sMatch - 5;
+                sGregorianDate.year   = NJIntFromString(sMatch + 1, sYearDigits);
+                sGregorianDate.year  *= (*sMatch == '+') ? 1 : -1;
+                sGregorianDate.month  = NJIntFromString(sMatch + sYearDigits + 1, 2);
+                sGregorianDate.day    = NJIntFromString(sMatch + sYearDigits + 3, 2);
                 continue;
             }
 
@@ -218,6 +218,78 @@ id NJISO8601ParseString(NSString *aString, NSString **aError)
                 sGregorianDate.month  = 1;
                 sGregorianDate.day    = 1;
                 continue;
+            }
+
+        <DateBegin> DIGIT{4} HYPHEN DIGIT{3}
+            {
+                sError = @"ISO8601 Ordinal Date not supported yet.";
+                break;
+            }
+
+        <DateBegin> DIGIT{4} DIGIT{3}
+            {
+                sError = @"ISO8601 Ordinal Date not supported yet.";
+                break;
+            }
+
+        <DateBegin> DIGIT{4} HYPHEN W DIGIT{2} HYPHEN DIGIT{1}
+            {
+                sError = @"ISO8601 Week Date not supported yet.";
+                break;
+            }
+
+        <DateBegin> DIGIT{4} HYPHEN W DIGIT{2}
+            {
+                sError = @"ISO8601 Week Date not supported yet.";
+                break;
+            }
+
+        <DateBegin> DIGIT{4} W DIGIT{2} DIGIT{1}
+            {
+                sError = @"ISO8601 Week Date not supported yet.";
+                break;
+            }
+
+        <DateBegin> DIGIT{4} W DIGIT{2}
+            {
+                sError = @"ISO8601 Week Date not supported yet.";
+                break;
+            }
+
+        <DateBegin> SIGN DIGIT{4,} HYPHEN DIGIT{3}
+            {
+                sError = @"ISO8601 Ordinal Date not supported yet.";
+                break;
+            }
+
+        <DateBegin> SIGN DIGIT{4,} DIGIT{3}
+            {
+                sError = @"ISO8601 Ordinal Date not supported yet.";
+                break;
+            }
+
+        <DateBegin> SIGN DIGIT{4,} HYPHEN W DIGIT{2} HYPHEN DIGIT{1}
+            {
+                sError = @"ISO8601 Week Date not supported yet.";
+                break;
+            }
+
+        <DateBegin> SIGN DIGIT{4,} HYPHEN W DIGIT{2}
+            {
+                sError = @"ISO8601 Week Date not supported yet.";
+                break;
+            }
+
+        <DateBegin> SIGN DIGIT{4,} W DIGIT{2} DIGIT{1}
+            {
+                sError = @"ISO8601 Week Date not supported yet.";
+                break;
+            }
+
+        <DateBegin> SIGN DIGIT{4,} W DIGIT{2}
+            {
+                sError = @"ISO8601 Week Date not supported yet.";
+                break;
             }
 
 
@@ -254,6 +326,23 @@ id NJISO8601ParseString(NSString *aString, NSString **aError)
                 continue;
             }
 
+        <TimeBegin> DIGIT{2} COLON DIGIT{2} COMMA DIGIT{1,} => TimeEnd
+            {
+                int sFractionDigits    = sCursor - sMatch - 6;
+                sGregorianDate.hour    = NJIntFromString(sMatch, 2);
+                sGregorianDate.minute  = NJIntFromString(sMatch + 3, 2);
+                sGregorianDate.second  = NJFractionFromString(sMatch + 6, sFractionDigits) * 60.0;
+                continue;
+            }
+
+        <TimeBegin> DIGIT{2} COLON DIGIT{2} => TimeEnd
+            {
+                sGregorianDate.hour    = NJIntFromString(sMatch, 2);
+                sGregorianDate.minute  = NJIntFromString(sMatch + 3, 2);
+                sGregorianDate.second  = 0;
+                continue;
+            }
+
         <TimeBegin> DIGIT{2} DIGIT{2} DIGIT{2} COMMA DIGIT{1,} => TimeEnd
             {
                 int sFractionDigits    = sCursor - sMatch - 7;
@@ -269,23 +358,6 @@ id NJISO8601ParseString(NSString *aString, NSString **aError)
                 sGregorianDate.hour    = NJIntFromString(sMatch, 2);
                 sGregorianDate.minute  = NJIntFromString(sMatch + 2, 2);
                 sGregorianDate.second  = NJIntFromString(sMatch + 4, 2);
-                continue;
-            }
-
-        <TimeBegin> DIGIT{2} COLON DIGIT{2} COMMA DIGIT{1,} => TimeEnd
-            {
-                int sFractionDigits    = sCursor - sMatch - 6;
-                sGregorianDate.hour    = NJIntFromString(sMatch, 2);
-                sGregorianDate.minute  = NJIntFromString(sMatch + 3, 2);
-                sGregorianDate.second  = NJFractionFromString(sMatch + 6, sFractionDigits) * 60.0;
-                continue;
-            }
-
-        <TimeBegin> DIGIT{2} COLON DIGIT{2} => TimeEnd
-            {
-                sGregorianDate.hour    = NJIntFromString(sMatch, 2);
-                sGregorianDate.minute  = NJIntFromString(sMatch + 3, 2);
-                sGregorianDate.second  = 0;
                 continue;
             }
 
@@ -339,7 +411,7 @@ id NJISO8601ParseString(NSString *aString, NSString **aError)
 
         <TimeEnd> SOLIDUS
             {
-                sError = @"ISO8601 Time Interval not supported yet";
+                sError = @"ISO8601 Time Interval not supported yet.";
                 break;
             }
 
@@ -379,7 +451,7 @@ id NJISO8601ParseString(NSString *aString, NSString **aError)
 
         <TimeZoneEnd> SOLIDUS
             {
-                sError = @"ISO8601 Time Interval not supported yet";
+                sError = @"ISO8601 Time Interval not supported yet.";
                 break;
             }
 
@@ -391,28 +463,26 @@ id NJISO8601ParseString(NSString *aString, NSString **aError)
 
         <DurationBegin> ANY
             {
-                sError = @"ISO8601 Duration not supported yet";
+                sError = @"ISO8601 Duration not supported yet.";
                 break;
             }
 
 
         <RecurringIntervalBegin> ANY
             {
-                sError = @"ISO8601 Recurring Time Interval not supported yet";
+                sError = @"ISO8601 Recurring Time Interval not supported yet.";
                 break;
             }
 
 
         <*> NULL
             {
-                NSLog(@"[NULL]");
                 sError = @"Unexpected end of string.";
                 break;
             }
 
         <*> ANY
             {
-                NSLog(@"[UNEXPECTED]");
                 sError = @"Unexpected character.";
                 break;
             }
