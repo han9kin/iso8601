@@ -44,11 +44,30 @@ static double NJFractionFromString(const unsigned char *aString, int aDigits)
 }
 
 
+static CFTimeInterval NJMidnightCorrectionWithGregorianDate(CFGregorianDate *aGregorianDate)
+{
+    if ((aGregorianDate->hour == 24) && (aGregorianDate->minute == 0) && (aGregorianDate->second == 0.0))
+    {
+        aGregorianDate->hour = 0;
+
+        return (CFTimeInterval)24 * 60 * 60;
+    }
+    else
+    {
+        return (CFTimeInterval)0;
+    }
+}
+
+
 static NSDate *NJDateFromGregorianDateWithLocalTimeZone(CFGregorianDate aGregorianDate, NSString **aError)
 {
+    CFTimeInterval sMidnightCorrection = NJMidnightCorrectionWithGregorianDate(&aGregorianDate);
+
     if (CFGregorianDateIsValid(aGregorianDate, kCFGregorianAllUnits))
     {
-        return [NSDate dateWithTimeIntervalSinceReferenceDate:CFGregorianDateGetAbsoluteTime(aGregorianDate, (CFTimeZoneRef)[NSTimeZone localTimeZone])];
+        CFAbsoluteTime sAbsoluteTime = CFGregorianDateGetAbsoluteTime(aGregorianDate, (CFTimeZoneRef)[NSTimeZone localTimeZone]);
+
+        return [NSDate dateWithTimeIntervalSinceReferenceDate:(sAbsoluteTime + sMidnightCorrection)];
     }
     else
     {
@@ -61,9 +80,13 @@ static NSDate *NJDateFromGregorianDateWithLocalTimeZone(CFGregorianDate aGregori
 
 static NSDate *NJDateFromGregorianDateWithTimeZoneOffset(CFGregorianDate aGregorianDate, double aTimeZoneOffset, NSString **aError)
 {
+    CFTimeInterval sMidnightCorrection = NJMidnightCorrectionWithGregorianDate(&aGregorianDate);
+
     if (CFGregorianDateIsValid(aGregorianDate, kCFGregorianAllUnits))
     {
-        return [NSDate dateWithTimeIntervalSinceReferenceDate:(CFGregorianDateGetAbsoluteTime(aGregorianDate, NULL) - aTimeZoneOffset)];
+        CFAbsoluteTime sAbsoluteTime = CFGregorianDateGetAbsoluteTime(aGregorianDate, NULL);
+
+        return [NSDate dateWithTimeIntervalSinceReferenceDate:(sAbsoluteTime + sMidnightCorrection - aTimeZoneOffset)];
     }
     else
     {
@@ -299,6 +322,12 @@ id NJISO8601ParseString(NSString *aString, NSString **aError)
         <DateEnd> T => TimeBegin
             {
                 continue;
+            }
+
+        <DateEnd> SOLIDUS
+            {
+                sError = @"ISO8601 Time Interval not supported yet.";
+                break;
             }
 
         <DateEnd> NULL

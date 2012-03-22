@@ -342,6 +342,24 @@ static NSString *gTestStrings[][2] =
     { @"2011-02",                          @"2011-01-31T15:00:00,000+0000" },
     { @"2011",                             @"2010-12-31T15:00:00,000+0000" },
 
+    { @"2011-02-07T00:00:00+09:00",        @"2011-02-06T15:00:00,000+0000" },
+    { @"2011-02-07T00:00:00+0900",         @"2011-02-06T15:00:00,000+0000" },
+    { @"2011-02-07T00:00:00+09",           @"2011-02-06T15:00:00,000+0000" },
+    { @"2011-02-07T00:00:00",              @"2011-02-06T15:00:00,000+0000" },
+    { @"2011-02-07T00:00:00+08:00",        @"2011-02-06T16:00:00,000+0000" },
+    { @"2011-02-07T00:00:00+0800",         @"2011-02-06T16:00:00,000+0000" },
+    { @"2011-02-07T00:00:00+08",           @"2011-02-06T16:00:00,000+0000" },
+    { @"2011-02-07T00:00:00Z",             @"2011-02-07T00:00:00,000+0000" },
+
+    { @"2011-02-07T24:00:00+09:00",        @"2011-02-07T15:00:00,000+0000" },
+    { @"2011-02-07T24:00:00+0900",         @"2011-02-07T15:00:00,000+0000" },
+    { @"2011-02-07T24:00:00+09",           @"2011-02-07T15:00:00,000+0000" },
+    { @"2011-02-07T24:00:00",              @"2011-02-07T15:00:00,000+0000" },
+    { @"2011-02-07T24:00:00+08:00",        @"2011-02-07T16:00:00,000+0000" },
+    { @"2011-02-07T24:00:00+0800",         @"2011-02-07T16:00:00,000+0000" },
+    { @"2011-02-07T24:00:00+08",           @"2011-02-07T16:00:00,000+0000" },
+    { @"2011-02-07T24:00:00Z",             @"2011-02-08T00:00:00,000+0000" },
+
     { nil,                                 nil                             }
 };
 
@@ -399,6 +417,7 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
 - (void)testError
 {
     NSString *sErrorStrings[] = {
+        @"2011-02-07T24:01:01Z",
         @"2011-02-07T19:03:60Z",
         @"2011-02-07T19:60:46Z",
         @"2011-02-07T24:03:46Z",
@@ -429,6 +448,10 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
         @"2011-W12-3",
         @"2011W123T",
         @"2011W123",
+        @"2011-12-30/",
+        @"2011-12-30T12:34/",
+        @"P",
+        @"R",
         nil,
     };
 
@@ -458,7 +481,7 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
         STAssertFalse([sFormatter getObjectValue:&sObject forString:sUnsupportedStrings[i] errorDescription:NULL], @"%@ => NO", sUnsupportedStrings[i]);
         STAssertFalse([sFormatter getObjectValue:&sObject forString:sUnsupportedStrings[i] errorDescription:&sError], @"%@ => NO", sUnsupportedStrings[i]);
         STAssertNotNil(sError, @"");
-        STAssertTrue([sError rangeOfString:@"not supported"].location != NSNotFound, @"");
+        STAssertTrue([sError rangeOfString:@"not supported"].location != NSNotFound, @"%@ => %@", sUnsupportedStrings[i], sError);
     }
 
     sError = nil;
