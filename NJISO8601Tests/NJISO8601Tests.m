@@ -473,6 +473,97 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
 }
 
 
+- (void)testDistantYear
+{
+    NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
+    NSDate             *sDate;
+    NSString           *sString;
+
+    sDate = [sFormatter dateFromString:@"+12345-06-17T12:34:56,789+01:00"];
+    STAssertNotNil(sDate, @"");
+
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+12345-06-17T11:34:57Z"], @"%@", sString);
+}
+
+
+- (void)testStringFromDate
+{
+    NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
+    NSDate             *sDate      = [sFormatter dateFromString:@"2011-02-07T19:03:46,123456+09:00"];
+    NSString           *sString;
+
+    if (sDate)
+    {
+        STAssertNil([sFormatter stringFromDate:nil], @"");
+        STAssertNil([sFormatter stringForObjectValue:nil], @"");
+
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertTrue([sString isEqualToString:@"2011-02-07T10:03:46Z"], @"%@", sString);
+
+        sString = [sFormatter stringForObjectValue:sDate];
+        STAssertTrue([sString isEqualToString:@"2011-02-07T10:03:46Z"], @"%@", sString);
+
+        [sFormatter setTimeZoneStyle:NJISO8601FormatterTimeZoneStyleExtended];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T19:03:46+09:00"], @"%@", sString);
+
+        [sFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:-32400]];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T01:03:46-09:00"], @"%@", sString);
+
+        [sFormatter setTimeZone:nil];
+        [sFormatter setTimeZoneStyle:NJISO8601FormatterTimeZoneStyleBasic];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T19:03:46+0900"], @"%@", sString);
+
+        [sFormatter setTimeZoneStyle:NJISO8601FormatterTimeZoneStyleNone];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T19:03:46"], @"%@", sString);
+
+        [sFormatter setTimeFractionDigits:6];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T19:03:46,123456"], @"%@", sString);
+
+        [sFormatter setTimeFractionDigits:4];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T19:03:46,1235"], @"%@", sString);
+
+        [sFormatter setTimeStyle:NJISO8601FormatterTimeStyleBasic];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T190346,1235"], @"%@", sString);
+
+        [sFormatter setTimeStyle:NJISO8601FormatterTimeStyleNone];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07"], @"%@", sString);
+
+        [sFormatter setDateStyle:NJISO8601FormatterDateStyleCalendarBasic];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"20110207"], @"%@", sString);
+
+        [sFormatter setDateStyle:NJISO8601FormatterDateStyleOrdinalExtended];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertNil(sString, @"not supported yet");
+
+        [sFormatter setDateStyle:NJISO8601FormatterDateStyleOrdinalBasic];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertNil(sString, @"not supported yet");
+
+        [sFormatter setDateStyle:NJISO8601FormatterDateStyleWeekExtended];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertNil(sString, @"not supported yet");
+
+        [sFormatter setDateStyle:NJISO8601FormatterDateStyleWeekBasic];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertNil(sString, @"not supported yet");
+    }
+    else
+    {
+        STFail(@"cannot create NSDate");
+    }
+}
+
+
 - (void)testNSDateFormatter
 {
     NSDateFormatter *sFormatter = [[[NSDateFormatter alloc] init] autorelease];
