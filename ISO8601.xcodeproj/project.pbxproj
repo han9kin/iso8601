@@ -12,15 +12,14 @@
 		CFB1B8061519734800176C89 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB1B8051519734800176C89 /* CoreGraphics.framework */; };
 		CFB1B80C1519734800176C89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFB1B80A1519734800176C89 /* InfoPlist.strings */; };
 		CFB1B80E1519734900176C89 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B80D1519734900176C89 /* main.m */; };
-		CFB1B8121519734900176C89 /* NJAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B8111519734900176C89 /* NJAppDelegate.m */; };
-		CFB1B8151519734900176C89 /* NJViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B8141519734900176C89 /* NJViewController.m */; };
-		CFB1B8181519734900176C89 /* NJViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFB1B8161519734900176C89 /* NJViewController.xib */; };
+		CFB1B8121519734900176C89 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B8111519734900176C89 /* AppDelegate.m */; };
+		CFB1B8151519734900176C89 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B8141519734900176C89 /* ViewController.m */; };
+		CFB1B8181519734900176C89 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFB1B8161519734900176C89 /* ViewController.xib */; };
 		CFB1B8201519734900176C89 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB1B81F1519734900176C89 /* SenTestingKit.framework */; };
 		CFB1B8211519734900176C89 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB1B8011519734800176C89 /* UIKit.framework */; };
 		CFB1B8221519734900176C89 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB1B8031519734800176C89 /* Foundation.framework */; };
 		CFB1B82A1519734900176C89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFB1B8281519734900176C89 /* InfoPlist.strings */; };
 		CFB1B82D1519734900176C89 /* NJISO8601FormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B82C1519734900176C89 /* NJISO8601FormatterTests.m */; };
-		CFB1B8381519736C00176C89 /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B8371519736C00176C89 /* ISO8601DateFormatter.m */; };
 		CFB1B85B1519AFE300176C89 /* NJISO8601Parser.re in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B85A1519AFE300176C89 /* NJISO8601Parser.re */; };
 		CFB1B85C1519B6C600176C89 /* NJISO8601Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B83B1519738300176C89 /* NJISO8601Formatter.m */; };
 		CFB1B862151AF4A500176C89 /* UNIX2003.c in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B860151AF48200176C89 /* UNIX2003.c */; };
@@ -48,32 +47,30 @@
 			containerPortal = CFB1B7F41519734800176C89 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = CFB1B7FC1519734800176C89;
-			remoteInfo = NJISO8601;
+			remoteInfo = ISO8601;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		CFB1B7FD1519734800176C89 /* NJISO8601.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NJISO8601.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFB1B7FD1519734800176C89 /* ISO8601.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ISO8601.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFB1B8011519734800176C89 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		CFB1B8031519734800176C89 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CFB1B8051519734800176C89 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		CFB1B8091519734800176C89 /* NJISO8601-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NJISO8601-Info.plist"; sourceTree = "<group>"; };
+		CFB1B8091519734800176C89 /* ISO8601-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ISO8601-Info.plist"; sourceTree = "<group>"; };
 		CFB1B80B1519734800176C89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CFB1B80D1519734900176C89 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		CFB1B80F1519734900176C89 /* NJISO8601-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NJISO8601-Prefix.pch"; sourceTree = "<group>"; };
-		CFB1B8101519734900176C89 /* NJAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NJAppDelegate.h; sourceTree = "<group>"; };
-		CFB1B8111519734900176C89 /* NJAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NJAppDelegate.m; sourceTree = "<group>"; };
-		CFB1B8131519734900176C89 /* NJViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NJViewController.h; sourceTree = "<group>"; };
-		CFB1B8141519734900176C89 /* NJViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NJViewController.m; sourceTree = "<group>"; };
-		CFB1B8171519734900176C89 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/NJViewController.xib; sourceTree = "<group>"; };
-		CFB1B81E1519734900176C89 /* NJISO8601Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NJISO8601Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFB1B80F1519734900176C89 /* ISO8601-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ISO8601-Prefix.pch"; sourceTree = "<group>"; };
+		CFB1B8101519734900176C89 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		CFB1B8111519734900176C89 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		CFB1B8131519734900176C89 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		CFB1B8141519734900176C89 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		CFB1B8171519734900176C89 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
+		CFB1B81E1519734900176C89 /* ISO8601Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ISO8601Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFB1B81F1519734900176C89 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		CFB1B8271519734900176C89 /* NJISO8601Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NJISO8601Tests-Info.plist"; sourceTree = "<group>"; };
+		CFB1B8271519734900176C89 /* ISO8601Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ISO8601Tests-Info.plist"; sourceTree = "<group>"; };
 		CFB1B8291519734900176C89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CFB1B82B1519734900176C89 /* NJISO8601FormatterTests.h */ = {isa = PBXFileReference; path = NJISO8601FormatterTests.h; sourceTree = "<group>"; };
+		CFB1B82B1519734900176C89 /* NJISO8601FormatterTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NJISO8601FormatterTests.h; sourceTree = "<group>"; };
 		CFB1B82C1519734900176C89 /* NJISO8601FormatterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NJISO8601FormatterTests.m; sourceTree = "<group>"; };
-		CFB1B8361519736C00176C89 /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISO8601DateFormatter.h; sourceTree = "<group>"; };
-		CFB1B8371519736C00176C89 /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISO8601DateFormatter.m; sourceTree = "<group>"; };
 		CFB1B83A1519738300176C89 /* NJISO8601Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJISO8601Formatter.h; sourceTree = "<group>"; };
 		CFB1B83B1519738300176C89 /* NJISO8601Formatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NJISO8601Formatter.m; sourceTree = "<group>"; };
 		CFB1B85A1519AFE300176C89 /* NJISO8601Parser.re */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = NJISO8601Parser.re; sourceTree = "<group>"; };
@@ -107,8 +104,8 @@
 		CFB1B7F21519734800176C89 = {
 			isa = PBXGroup;
 			children = (
-				CFB1B8071519734800176C89 /* NJISO8601 */,
-				CFB1B8251519734900176C89 /* NJISO8601Tests */,
+				CFB1B8071519734800176C89 /* ISO8601 */,
+				CFB1B8251519734900176C89 /* ISO8601Tests */,
 				CFB1B8001519734800176C89 /* Frameworks */,
 				CFB1B7FE1519734800176C89 /* Products */,
 			);
@@ -117,8 +114,8 @@
 		CFB1B7FE1519734800176C89 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CFB1B7FD1519734800176C89 /* NJISO8601.app */,
-				CFB1B81E1519734900176C89 /* NJISO8601Tests.octest */,
+				CFB1B7FD1519734800176C89 /* ISO8601.app */,
+				CFB1B81E1519734900176C89 /* ISO8601Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -134,50 +131,48 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CFB1B8071519734800176C89 /* NJISO8601 */ = {
+		CFB1B8071519734800176C89 /* ISO8601 */ = {
 			isa = PBXGroup;
 			children = (
 				CFB1B85A1519AFE300176C89 /* NJISO8601Parser.re */,
 				CFB1B83A1519738300176C89 /* NJISO8601Formatter.h */,
 				CFB1B83B1519738300176C89 /* NJISO8601Formatter.m */,
-				CFB1B8361519736C00176C89 /* ISO8601DateFormatter.h */,
-				CFB1B8371519736C00176C89 /* ISO8601DateFormatter.m */,
-				CFB1B8101519734900176C89 /* NJAppDelegate.h */,
-				CFB1B8111519734900176C89 /* NJAppDelegate.m */,
-				CFB1B8131519734900176C89 /* NJViewController.h */,
-				CFB1B8141519734900176C89 /* NJViewController.m */,
-				CFB1B8161519734900176C89 /* NJViewController.xib */,
+				CFB1B8101519734900176C89 /* AppDelegate.h */,
+				CFB1B8111519734900176C89 /* AppDelegate.m */,
+				CFB1B8131519734900176C89 /* ViewController.h */,
+				CFB1B8141519734900176C89 /* ViewController.m */,
+				CFB1B8161519734900176C89 /* ViewController.xib */,
 				CFB1B8081519734800176C89 /* Supporting Files */,
 			);
-			path = NJISO8601;
+			path = ISO8601;
 			sourceTree = "<group>";
 		};
 		CFB1B8081519734800176C89 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				CFB1B8091519734800176C89 /* NJISO8601-Info.plist */,
+				CFB1B8091519734800176C89 /* ISO8601-Info.plist */,
 				CFB1B80A1519734800176C89 /* InfoPlist.strings */,
 				CFB1B80D1519734900176C89 /* main.m */,
-				CFB1B80F1519734900176C89 /* NJISO8601-Prefix.pch */,
+				CFB1B80F1519734900176C89 /* ISO8601-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		CFB1B8251519734900176C89 /* NJISO8601Tests */ = {
+		CFB1B8251519734900176C89 /* ISO8601Tests */ = {
 			isa = PBXGroup;
 			children = (
 				CFB1B82B1519734900176C89 /* NJISO8601FormatterTests.h */,
 				CFB1B82C1519734900176C89 /* NJISO8601FormatterTests.m */,
 				CFB1B8261519734900176C89 /* Supporting Files */,
 			);
-			path = NJISO8601Tests;
+			path = ISO8601Tests;
 			sourceTree = "<group>";
 		};
 		CFB1B8261519734900176C89 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				CFB1B860151AF48200176C89 /* UNIX2003.c */,
-				CFB1B8271519734900176C89 /* NJISO8601Tests-Info.plist */,
+				CFB1B8271519734900176C89 /* ISO8601Tests-Info.plist */,
 				CFB1B8281519734900176C89 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -186,9 +181,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CFB1B7FC1519734800176C89 /* NJISO8601 */ = {
+		CFB1B7FC1519734800176C89 /* ISO8601 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CFB1B8301519734900176C89 /* Build configuration list for PBXNativeTarget "NJISO8601" */;
+			buildConfigurationList = CFB1B8301519734900176C89 /* Build configuration list for PBXNativeTarget "ISO8601" */;
 			buildPhases = (
 				CFB1B7F91519734800176C89 /* Sources */,
 				CFB1B7FA1519734800176C89 /* Frameworks */,
@@ -199,14 +194,14 @@
 			);
 			dependencies = (
 			);
-			name = NJISO8601;
-			productName = NJISO8601;
-			productReference = CFB1B7FD1519734800176C89 /* NJISO8601.app */;
+			name = ISO8601;
+			productName = ISO8601;
+			productReference = CFB1B7FD1519734800176C89 /* ISO8601.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CFB1B81D1519734900176C89 /* NJISO8601Tests */ = {
+		CFB1B81D1519734900176C89 /* ISO8601Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CFB1B8331519734900176C89 /* Build configuration list for PBXNativeTarget "NJISO8601Tests" */;
+			buildConfigurationList = CFB1B8331519734900176C89 /* Build configuration list for PBXNativeTarget "ISO8601Tests" */;
 			buildPhases = (
 				CFB1B8191519734900176C89 /* Sources */,
 				CFB1B81A1519734900176C89 /* Frameworks */,
@@ -218,9 +213,9 @@
 			dependencies = (
 				CFB1B8241519734900176C89 /* PBXTargetDependency */,
 			);
-			name = NJISO8601Tests;
-			productName = NJISO8601Tests;
-			productReference = CFB1B81E1519734900176C89 /* NJISO8601Tests.octest */;
+			name = ISO8601Tests;
+			productName = ISO8601Tests;
+			productReference = CFB1B81E1519734900176C89 /* ISO8601Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
@@ -229,11 +224,11 @@
 		CFB1B7F41519734800176C89 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				CLASSPREFIX = NJ;
+				CLASSPREFIX = "";
 				LastUpgradeCheck = 0430;
-				ORGANIZATIONNAME = NHN;
+				ORGANIZATIONNAME = "";
 			};
-			buildConfigurationList = CFB1B7F71519734800176C89 /* Build configuration list for PBXProject "NJISO8601" */;
+			buildConfigurationList = CFB1B7F71519734800176C89 /* Build configuration list for PBXProject "ISO8601" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -245,8 +240,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CFB1B7FC1519734800176C89 /* NJISO8601 */,
-				CFB1B81D1519734900176C89 /* NJISO8601Tests */,
+				CFB1B7FC1519734800176C89 /* ISO8601 */,
+				CFB1B81D1519734900176C89 /* ISO8601Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -257,7 +252,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CFB1B80C1519734800176C89 /* InfoPlist.strings in Resources */,
-				CFB1B8181519734900176C89 /* NJViewController.xib in Resources */,
+				CFB1B8181519734900176C89 /* ViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,9 +289,8 @@
 			files = (
 				CFB1B85B1519AFE300176C89 /* NJISO8601Parser.re in Sources */,
 				CFB1B80E1519734900176C89 /* main.m in Sources */,
-				CFB1B8121519734900176C89 /* NJAppDelegate.m in Sources */,
-				CFB1B8151519734900176C89 /* NJViewController.m in Sources */,
-				CFB1B8381519736C00176C89 /* ISO8601DateFormatter.m in Sources */,
+				CFB1B8121519734900176C89 /* AppDelegate.m in Sources */,
+				CFB1B8151519734900176C89 /* ViewController.m in Sources */,
 				CFB1B85C1519B6C600176C89 /* NJISO8601Formatter.m in Sources */,
 				CFB1B862151AF4A500176C89 /* UNIX2003.c in Sources */,
 			);
@@ -315,7 +309,7 @@
 /* Begin PBXTargetDependency section */
 		CFB1B8241519734900176C89 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = CFB1B7FC1519734800176C89 /* NJISO8601 */;
+			target = CFB1B7FC1519734800176C89 /* ISO8601 */;
 			targetProxy = CFB1B8231519734900176C89 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -329,12 +323,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		CFB1B8161519734900176C89 /* NJViewController.xib */ = {
+		CFB1B8161519734900176C89 /* ViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				CFB1B8171519734900176C89 /* en */,
 			);
-			name = NJViewController.xib;
+			name = ViewController.xib;
 			sourceTree = "<group>";
 		};
 		CFB1B8281519734900176C89 /* InfoPlist.strings */ = {
@@ -395,8 +389,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "NJISO8601/NJISO8601-Prefix.pch";
-				INFOPLIST_FILE = "NJISO8601/NJISO8601-Info.plist";
+				GCC_PREFIX_HEADER = "ISO8601/ISO8601-Prefix.pch";
+				INFOPLIST_FILE = "ISO8601/ISO8601-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -406,8 +400,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "NJISO8601/NJISO8601-Prefix.pch";
-				INFOPLIST_FILE = "NJISO8601/NJISO8601-Info.plist";
+				GCC_PREFIX_HEADER = "ISO8601/ISO8601-Prefix.pch";
+				INFOPLIST_FILE = "ISO8601/ISO8601-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -416,14 +410,14 @@
 		CFB1B8341519734900176C89 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/NJISO8601.app/NJISO8601";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ISO8601.app/ISO8601";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "NJISO8601/NJISO8601-Prefix.pch";
-				INFOPLIST_FILE = "NJISO8601Tests/NJISO8601Tests-Info.plist";
+				GCC_PREFIX_HEADER = "ISO8601/ISO8601-Prefix.pch";
+				INFOPLIST_FILE = "ISO8601Tests/ISO8601Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -433,14 +427,14 @@
 		CFB1B8351519734900176C89 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/NJISO8601.app/NJISO8601";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ISO8601.app/ISO8601";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "NJISO8601/NJISO8601-Prefix.pch";
-				INFOPLIST_FILE = "NJISO8601Tests/NJISO8601Tests-Info.plist";
+				GCC_PREFIX_HEADER = "ISO8601/ISO8601-Prefix.pch";
+				INFOPLIST_FILE = "ISO8601Tests/ISO8601Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -477,8 +471,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "NJISO8601/NJISO8601-Prefix.pch";
-				INFOPLIST_FILE = "NJISO8601/NJISO8601-Info.plist";
+				GCC_PREFIX_HEADER = "ISO8601/ISO8601-Prefix.pch";
+				INFOPLIST_FILE = "ISO8601/ISO8601-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -487,14 +481,14 @@
 		CFB1B85F151AF42400176C89 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/NJISO8601.app/NJISO8601";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ISO8601.app/ISO8601";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "NJISO8601/NJISO8601-Prefix.pch";
-				INFOPLIST_FILE = "NJISO8601Tests/NJISO8601Tests-Info.plist";
+				GCC_PREFIX_HEADER = "ISO8601/ISO8601-Prefix.pch";
+				INFOPLIST_FILE = "ISO8601Tests/ISO8601Tests-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -504,7 +498,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CFB1B7F71519734800176C89 /* Build configuration list for PBXProject "NJISO8601" */ = {
+		CFB1B7F71519734800176C89 /* Build configuration list for PBXProject "ISO8601" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CFB1B82E1519734900176C89 /* Debug */,
@@ -514,7 +508,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CFB1B8301519734900176C89 /* Build configuration list for PBXNativeTarget "NJISO8601" */ = {
+		CFB1B8301519734900176C89 /* Build configuration list for PBXNativeTarget "ISO8601" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CFB1B8311519734900176C89 /* Debug */,
@@ -524,7 +518,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CFB1B8331519734900176C89 /* Build configuration list for PBXNativeTarget "NJISO8601Tests" */ = {
+		CFB1B8331519734900176C89 /* Build configuration list for PBXNativeTarget "ISO8601Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CFB1B8341519734900176C89 /* Debug */,

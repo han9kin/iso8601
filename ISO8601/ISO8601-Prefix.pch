@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'NJISO8601' target in the 'NJISO8601' project
+// Prefix header for all source files of the 'ISO8601' target in the 'ISO8601' project
 //
 
 #import <Availability.h>

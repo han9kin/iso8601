@@ -1,23 +1,24 @@
-//
-//  NJViewController.m
-//  NJISO8601
-//
-//  Created by 서 상혁 on 2012-03-21.
-//  Copyright (c) 2012년 NHN. All rights reserved.
-//
+/*
+ *  ViewController.m
+ *  ISO8601
+ *
+ *  Created by han9kin on 2012-03-21.
+ *  Copyright (c) 2012 . All rights reserved.
+ *
+ */
 
-#import "NJViewController.h"
+#import "ViewController.h"
 
-@interface NJViewController ()
+@interface ViewController ()
 
 @end
 
-@implementation NJViewController
+@implementation ViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+    // Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)viewDidUnload

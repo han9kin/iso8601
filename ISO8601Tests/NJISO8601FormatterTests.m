@@ -1,6 +1,6 @@
 /*
  *  NJISO8601FormatterTests.m
- *  NJISO8601FormatterTests
+ *  NJFoundation
  *
  *  Created by han9kin on 2012-03-21.
  *  Copyright (c) 2012 NHN. All rights reserved.
@@ -9,7 +9,6 @@
 
 #import "NJISO8601FormatterTests.h"
 #import "NJISO8601Formatter.h"
-#import "ISO8601DateFormatter.h"
 
 
 static NSString *gTestStrings[][2] =
@@ -389,17 +388,12 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
 {
     NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
     NSDate             *sDate;
-    CFAbsoluteTime      sTime;
-
-    sTime = CFAbsoluteTimeGetCurrent();
 
     for (int i = 0; gTestStrings[i][0]; i++)
     {
         sDate = [sFormatter dateFromString:gTestStrings[i][0]];
         STAssertTrue([gTestStrings[i][1] isEqualToString:[gDefaultDateFormatter stringFromDate:sDate]], @"%@ == %@ => %@", gTestStrings[i][0], gTestStrings[i][1], [gDefaultDateFormatter stringFromDate:sDate]);
     }
-
-    NSLog(@"NJISO8601Formatter Total Parse Time: %f", (CFAbsoluteTimeGetCurrent() - sTime));
 }
 
 
@@ -762,10 +756,25 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
 }
 
 
-- (void)testNSDateFormatter
+- (void)testZSpeedNJISO8601Formatter
+{
+    NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
+    CFAbsoluteTime      sTime;
+
+    sTime = CFAbsoluteTimeGetCurrent();
+
+    for (int i = 0; gTestStrings[i][0]; i++)
+    {
+        [sFormatter dateFromString:gTestStrings[i][0]];
+    }
+
+    NSLog(@"NJISO8601Formatter Total Parse Time: %f", (CFAbsoluteTimeGetCurrent() - sTime));
+}
+
+
+- (void)testZSpeedNSDateFormatter
 {
     NSDateFormatter *sFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    NSDate          *sDate;
     CFAbsoluteTime   sTime;
 
     [sFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZZZ"];
@@ -775,27 +784,10 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
 
     for (int i = 0; gTestStrings[i][0]; i++)
     {
-        sDate = [sFormatter dateFromString:gTestStrings[i][0]];
+        [sFormatter dateFromString:gTestStrings[i][0]];
     }
 
     NSLog(@"NSDateFormatter Total Parse Time: %f", (CFAbsoluteTimeGetCurrent() - sTime));
-}
-
-
-- (void)testISO8601DateFormatter
-{
-    ISO8601DateFormatter *sFormatter = [[[ISO8601DateFormatter alloc] init] autorelease];
-    NSDate               *sDate;
-    CFAbsoluteTime        sTime;
-
-    sTime = CFAbsoluteTimeGetCurrent();
-
-    for (int i = 0; gTestStrings[i][0]; i++)
-    {
-        sDate = [sFormatter dateFromString:gTestStrings[i][0]];
-    }
-
-    NSLog(@"ISO8601DateFormatter Total Parse Time: %f", (CFAbsoluteTimeGetCurrent() - sTime));
 }
 
 

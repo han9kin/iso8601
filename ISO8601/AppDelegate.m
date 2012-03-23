@@ -1,16 +1,17 @@
-//
-//  NJAppDelegate.m
-//  NJISO8601
-//
-//  Created by 서 상혁 on 2012-03-21.
-//  Copyright (c) 2012년 NHN. All rights reserved.
-//
+/*
+ *  AppDelegate.m
+ *  ISO8601
+ *
+ *  Created by han9kin on 2012-03-21.
+ *  Copyright (c) 2012 . All rights reserved.
+ *
+ */
 
-#import "NJAppDelegate.h"
+#import "AppDelegate.h"
 
-#import "NJViewController.h"
+#import "ViewController.h"
 
-@implementation NJAppDelegate
+@implementation AppDelegate
 
 @synthesize window = _window;
 @synthesize viewController = _viewController;
@@ -26,7 +27,7 @@
 {
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
-    self.viewController = [[[NJViewController alloc] initWithNibName:@"NJViewController" bundle:nil] autorelease];
+    self.viewController = [[[ViewController alloc] initWithNibName:@"ViewController" bundle:nil] autorelease];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;
@@ -40,7 +41,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 

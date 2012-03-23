@@ -1,6 +1,6 @@
 /*
  *  NJISO8601Parser.re
- *  NJISO8601
+ *  NJFoundation
  *
  *  Created by han9kin on 2012-03-21.
  *  Copyright (c) 2012 NHN. All rights reserved.
