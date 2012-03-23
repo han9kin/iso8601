@@ -68,7 +68,7 @@ typedef enum
 typedef enum
 {
     NJISO8601FormatterFractionSeparatorComma = 0,       /* Default  (,)          */
-    NJISO8601FormatterFractionSeparatorDot,             /* Default  (.)          */
+    NJISO8601FormatterFractionSeparatorDot,             /*          (.)          */
 } NJISO8601FormatterFractionSeparator;
 
 
