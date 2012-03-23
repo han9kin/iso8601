@@ -400,7 +400,7 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
 }
 
 
-- (void)testDistantYear
+- (void)testDateExpandedRepresentation
 {
     NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
     NSDate             *sDate;
@@ -408,9 +408,39 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
 
     sDate = [sFormatter dateFromString:@"+12345-06-17T12:34:56,789+01:00"];
     STAssertNotNil(sDate, @"");
-
     sString = [sFormatter stringFromDate:sDate];
     STAssertTrue([sString isEqualToString:@"+12345-06-17T11:34:57Z"], @"%@", sString);
+
+    sDate = [sFormatter dateFromString:@"+123450617T12:34:56,789+01:00"];
+    STAssertNotNil(sDate, @"");
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+12345-06-17T11:34:57Z"], @"%@", sString);
+
+    sDate = [sFormatter dateFromString:@"+12345-06T12:34:56,789+01:00"];
+    STAssertNotNil(sDate, @"");
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+12345-06-01T11:34:57Z"], @"%@", sString);
+
+    sDate = [sFormatter dateFromString:@"+12345T12:34:56,789+01:00"];
+    STAssertNotNil(sDate, @"");
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+12345-01-01T11:34:57Z"], @"%@", sString);
+
+    sDate = [sFormatter dateFromString:@"+12345-001T12:34:56,789+01:00"];
+    STAssertNotNil(sDate, @"");
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+12345-01-01T11:34:57Z"], @"%@", sString);
+
+    [sFormatter setDateStyle:NJISO8601FormatterDateStyleCalendarBasic];
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+123450101T11:34:57Z"], @"%@", sString);
+
+    [sFormatter setDateStyle:NJISO8601FormatterDateStyleOrdinalBasic];
+    STAssertNil([sFormatter stringFromDate:sDate], @"Basic Format Not Allowed");
+
+    [sFormatter setDateStyle:NJISO8601FormatterDateStyleWeekBasic];
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"+12344-001T12:34:56,789+01:00"]];
+    STAssertTrue([sString isEqualToString:@"+12343W526T11:34:57Z"], @"%@", sString);
 }
 
 
@@ -436,18 +466,17 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
         @"2011-0T",
         @"2011-0",
         @"201",
+        @"MERONG",
+        @"2011-00",
+        @"2011-366T",
+        @"2011-000",
+        @"2011000T",
+        @"2011366",
+        @"+2011001T",
         nil
     };
 
     NSString *sUnsupportedStrings[] = {
-        @"2011-123T",
-        @"2011-123",
-        @"2011123T",
-        @"2011123",
-        @"2011-W12-3T",
-        @"2011-W12-3",
-        @"2011W123T",
-        @"2011W123",
         @"2011-12-30/",
         @"2011-12-30T12:34/",
         @"P",
@@ -555,6 +584,178 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
     {
         STFail(@"cannot create NSDate");
     }
+}
+
+
+- (void)testOrdinalDate
+{
+    NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
+    NSString           *sString;
+
+    [sFormatter setDateStyle:NJISO8601FormatterDateStyleOrdinalExtended];
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2000-03-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2000-061T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2000-061T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2000-12-31T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2000-366T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2000-366T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2011-01-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2011-001T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2011-001T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2011-03-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2011-060T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2011-060T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2011-12-31T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2011-365T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2011-365T00:00:00Z"], @"%@", sString);
+
+    [sFormatter setDateStyle:NJISO8601FormatterDateStyleOrdinalBasic];
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2000-03-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2000061T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2000061T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2000-12-31T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2000366T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2000366T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2011-01-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2011001T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2011001T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2011-03-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2011060T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2011060T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2011-12-31T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2011365T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2011365T00:00:00Z"], @"%@", sString);
+}
+
+
+- (void)testWeekDate
+{
+    NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
+    NSString           *sString;
+
+    [sFormatter setDateStyle:NJISO8601FormatterDateStyleWeekExtended];
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2000-12-31T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2000-W52-7T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2000-W52-7T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2002-01-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2002-W01-2T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2002-W01-2T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2008-12-31T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2009-W01-3T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2009-W01-3T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2010-01-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2009-W53-5T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2009-W53-5T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2010-12-25T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2010-W51-6T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2010-W51-6T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2011-01-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2010-W52-6T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2010-W52-6T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2011-01-08T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2011-W01-6T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2011-W01-6T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2011-12-31T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2011-W52-6T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2011-W52-6T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2012-01-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2011-W52-7T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2011-W52-7T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2012-01-02T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2012-W01-1T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2012-W01-1T00:00:00Z"], @"%@", sString);
+
+    [sFormatter setDateStyle:NJISO8601FormatterDateStyleWeekBasic];
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2000-12-31T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2000W527T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2000W527T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2002-01-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2002W012T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2002W012T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2008-12-31T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2009W013T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2009W013T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2010-01-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2009W535T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2009W535T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2010-12-25T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2010W516T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2010W516T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2011-01-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2010W526T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2010W526T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2011-01-08T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2011W016T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2011W016T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2011-12-31T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2011W526T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2011W526T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2012-01-01T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2011W527T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2011W527T00:00:00Z"], @"%@", sString);
+
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"2012-01-02T00:00:00Z"]];
+    STAssertTrue([sString isEqualToString:@"2012W011T00:00:00Z"], @"%@", sString);
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
+    STAssertTrue([sString isEqualToString:@"2012W011T00:00:00Z"], @"%@", sString);
 }
 
 

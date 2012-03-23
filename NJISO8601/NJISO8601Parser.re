@@ -44,6 +44,90 @@ static double NJFractionFromString(const unsigned char *aString, int aDigits)
 }
 
 
+static BOOL NJIsLeapYear(int aYear)
+{
+    if ((((aYear % 4) == 0) && ((aYear % 100) != 0)) || ((aYear % 400) == 0))
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+
+static BOOL NJGetGregorianDateFromOrdinalDate(CFGregorianDate *aGregorianDate, int aYear, int aDayOfYear)
+{
+    static int  sDays365[] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
+    static int  sDays366[] = { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335 };
+    int        *sDays;
+
+    if (NJIsLeapYear(aYear))
+    {
+        sDays = sDays366;
+    }
+    else
+    {
+        sDays = sDays365;
+    }
+
+    for (int i = 11; i >= 0; i--)
+    {
+        if (aDayOfYear > sDays[i])
+        {
+            aGregorianDate->year  = aYear;
+            aGregorianDate->month = i + 1;
+            aGregorianDate->day   = aDayOfYear - sDays[i];
+
+            return YES;
+        }
+    }
+
+    return NO;
+}
+
+
+static int NJDayOfYearFromWeekDate(int *aYear, int aWeek, int aDayOfWeek)
+{
+    /*
+     * Algorithm from http://en.wikipedia.org/wiki/ISO_week_date#Calculating_a_date_given_the_year.2C_week_number_and_weekday
+     */
+
+    CFGregorianDate sDateOfJan4;
+    int             sWeekdayOfJan4;
+    int             sDayOfYear;
+
+    sDateOfJan4.year   = *aYear;
+    sDateOfJan4.month  = 1;
+    sDateOfJan4.day    = 4;
+    sDateOfJan4.hour   = 0;
+    sDateOfJan4.minute = 0;
+    sDateOfJan4.second = 0.0;
+
+    sWeekdayOfJan4 = CFAbsoluteTimeGetDayOfWeek(CFGregorianDateGetAbsoluteTime(sDateOfJan4, NULL), NULL);
+    sDayOfYear     = aWeek * 7 + aDayOfWeek - (sWeekdayOfJan4 + 3);
+
+    if (sDayOfYear <= 0)
+    {
+        *aYear     = *aYear - 1;
+        sDayOfYear = ((NJIsLeapYear(*aYear)) ? 366 : 365) - sDayOfYear;
+    }
+    else
+    {
+        int sDaysOfYear = NJIsLeapYear(*aYear) ? 366 : 365;
+
+        if (sDayOfYear > sDaysOfYear)
+        {
+            *aYear     = *aYear + 1;
+            sDayOfYear = sDayOfYear - sDaysOfYear;
+        }
+    }
+
+    return sDayOfYear;
+}
+
+
 static CFTimeInterval NJMidnightCorrectionWithGregorianDate(CFGregorianDate *aGregorianDate)
 {
     if ((aGregorianDate->hour == 24) && (aGregorianDate->minute == 0) && (aGregorianDate->second == 0.0))
@@ -176,146 +260,196 @@ id NJISO8601ParseString(NSString *aString, NSString **aError)
 
         <DateBegin> DIGIT{4} HYPHEN DIGIT{2} HYPHEN DIGIT{2} => DateEnd
             {
-                sGregorianDate.year   = NJIntFromString(sMatch, 4);
-                sGregorianDate.month  = NJIntFromString(sMatch + 5, 2);
-                sGregorianDate.day    = NJIntFromString(sMatch + 8, 2);
+                sGregorianDate.year  = NJIntFromString(sMatch, 4);
+                sGregorianDate.month = NJIntFromString(sMatch + 5, 2);
+                sGregorianDate.day   = NJIntFromString(sMatch + 8, 2);
                 continue;
             }
 
         <DateBegin> DIGIT{4} HYPHEN DIGIT{2} => DateEnd
             {
-                sGregorianDate.year   = NJIntFromString(sMatch, 4);
-                sGregorianDate.month  = NJIntFromString(sMatch + 5, 2);
-                sGregorianDate.day    = 1;
+                sGregorianDate.year  = NJIntFromString(sMatch, 4);
+                sGregorianDate.month = NJIntFromString(sMatch + 5, 2);
+                sGregorianDate.day   = 1;
                 continue;
             }
 
         <DateBegin> DIGIT{4} DIGIT{2} DIGIT{2} => DateEnd
             {
-                sGregorianDate.year   = NJIntFromString(sMatch, 4);
-                sGregorianDate.month  = NJIntFromString(sMatch + 4, 2);
-                sGregorianDate.day    = NJIntFromString(sMatch + 6, 2);
+                sGregorianDate.year  = NJIntFromString(sMatch, 4);
+                sGregorianDate.month = NJIntFromString(sMatch + 4, 2);
+                sGregorianDate.day   = NJIntFromString(sMatch + 6, 2);
                 continue;
             }
 
         <DateBegin> DIGIT{4} => DateEnd
             {
-                sGregorianDate.year   = NJIntFromString(sMatch, 4);
-                sGregorianDate.month  = 1;
-                sGregorianDate.day    = 1;
+                sGregorianDate.year  = NJIntFromString(sMatch, 4);
+                sGregorianDate.month = 1;
+                sGregorianDate.day   = 1;
                 continue;
             }
 
         <DateBegin> SIGN DIGIT{4,} HYPHEN DIGIT{2} HYPHEN DIGIT{2} => DateEnd
             {
-                int sYearDigits       = sCursor - sMatch - 7;
-                sGregorianDate.year   = NJIntFromString(sMatch + 1, sYearDigits);
-                sGregorianDate.year  *= (*sMatch == '+') ? 1 : -1;
-                sGregorianDate.month  = NJIntFromString(sMatch + sYearDigits + 2, 2);
-                sGregorianDate.day    = NJIntFromString(sMatch + sYearDigits + 5, 2);
+                int sYearDigits      = sCursor - sMatch - 7;
+                sGregorianDate.year  = NJIntFromString(sMatch + 1, sYearDigits) * ((*sMatch == '+') ? 1 : -1);
+                sGregorianDate.month = NJIntFromString(sMatch + sYearDigits + 2, 2);
+                sGregorianDate.day   = NJIntFromString(sMatch + sYearDigits + 5, 2);
                 continue;
             }
 
         <DateBegin> SIGN DIGIT{4,} HYPHEN DIGIT{2} => DateEnd
             {
-                int sYearDigits       = sCursor - sMatch - 4;
-                sGregorianDate.year   = NJIntFromString(sMatch + 1, sYearDigits);
-                sGregorianDate.year  *= (*sMatch == '+') ? 1 : -1;
-                sGregorianDate.month  = NJIntFromString(sMatch + sYearDigits + 2, 2);
-                sGregorianDate.day    = 1;
+                int sYearDigits      = sCursor - sMatch - 4;
+                sGregorianDate.year  = NJIntFromString(sMatch + 1, sYearDigits) * ((*sMatch == '+') ? 1 : -1);
+                sGregorianDate.month = NJIntFromString(sMatch + sYearDigits + 2, 2);
+                sGregorianDate.day   = 1;
                 continue;
             }
 
         <DateBegin> SIGN DIGIT{4,} DIGIT{2} DIGIT{2} => DateEnd
             {
-                int sYearDigits       = sCursor - sMatch - 5;
-                sGregorianDate.year   = NJIntFromString(sMatch + 1, sYearDigits);
-                sGregorianDate.year  *= (*sMatch == '+') ? 1 : -1;
-                sGregorianDate.month  = NJIntFromString(sMatch + sYearDigits + 1, 2);
-                sGregorianDate.day    = NJIntFromString(sMatch + sYearDigits + 3, 2);
+                int sYearDigits      = sCursor - sMatch - 5;
+                sGregorianDate.year  = NJIntFromString(sMatch + 1, sYearDigits) * ((*sMatch == '+') ? 1 : -1);
+                sGregorianDate.month = NJIntFromString(sMatch + sYearDigits + 1, 2);
+                sGregorianDate.day   = NJIntFromString(sMatch + sYearDigits + 3, 2);
                 continue;
             }
 
         <DateBegin> SIGN DIGIT{4,} => DateEnd
             {
-                int sYearDigits       = sCursor - sMatch - 1;
-                sGregorianDate.year   = NJIntFromString(sMatch + 1, sYearDigits);
-                sGregorianDate.year  *= (*sMatch == '+') ? 1 : -1;
-                sGregorianDate.month  = 1;
-                sGregorianDate.day    = 1;
+                int sYearDigits      = sCursor - sMatch - 1;
+                sGregorianDate.year  = NJIntFromString(sMatch + 1, sYearDigits) * ((*sMatch == '+') ? 1 : -1);
+                sGregorianDate.month = 1;
+                sGregorianDate.day   = 1;
                 continue;
             }
 
-        <DateBegin> DIGIT{4} HYPHEN DIGIT{3}
+        <DateBegin> DIGIT{4} HYPHEN DIGIT{3} => DateEnd
             {
-                sError = @"ISO8601 Ordinal Date not supported yet.";
-                break;
+                int sYear      = NJIntFromString(sMatch, 4);
+                int sDayOfYear = NJIntFromString(sMatch + 5, 3);
+                if (NJGetGregorianDateFromOrdinalDate(&sGregorianDate, sYear, sDayOfYear))
+                {
+                    continue;
+                }
+                else
+                {
+                    sError = @"Invalid ordinal date.";
+                    break;
+                }
             }
 
-        <DateBegin> DIGIT{4} DIGIT{3}
+        <DateBegin> DIGIT{4} DIGIT{3} => DateEnd
             {
-                sError = @"ISO8601 Ordinal Date not supported yet.";
-                break;
+                int sYear      = NJIntFromString(sMatch, 4);
+                int sDayOfYear = NJIntFromString(sMatch + 4, 3);
+                if (NJGetGregorianDateFromOrdinalDate(&sGregorianDate, sYear, sDayOfYear))
+                {
+                    continue;
+                }
+                else
+                {
+                    sError = @"Invalid ordinal date.";
+                    break;
+                }
             }
 
-        <DateBegin> DIGIT{4} HYPHEN W DIGIT{2} HYPHEN DIGIT{1}
+        <DateBegin> SIGN DIGIT{4,} HYPHEN DIGIT{3} => DateEnd
             {
-                sError = @"ISO8601 Week Date not supported yet.";
-                break;
+                int sYearDigits = sCursor - sMatch - 5;
+                int sYear       = NJIntFromString(sMatch + 1, sYearDigits) * ((*sMatch == '+') ? 1 : -1);
+                int sDayOfYear  = NJIntFromString(sMatch + sYearDigits + 2, 3);
+                if (NJGetGregorianDateFromOrdinalDate(&sGregorianDate, sYear, sDayOfYear))
+                {
+                    continue;
+                }
+                else
+                {
+                    sError = @"Invalid ordinal date.";
+                    break;
+                }
             }
 
-        <DateBegin> DIGIT{4} HYPHEN W DIGIT{2}
+        <DateBegin> DIGIT{4} HYPHEN W DIGIT{2} HYPHEN DIGIT{1} => DateEnd
             {
-                sError = @"ISO8601 Week Date not supported yet.";
-                break;
+                int sYear      = NJIntFromString(sMatch, 4);
+                int sWeek      = NJIntFromString(sMatch + 6, 2);
+                int sDayOfWeek = NJIntFromString(sMatch + 9, 1);
+                int sDayOfYear = NJDayOfYearFromWeekDate(&sYear, sWeek, sDayOfWeek);
+                NJGetGregorianDateFromOrdinalDate(&sGregorianDate, sYear, sDayOfYear);
+                continue;
             }
 
-        <DateBegin> DIGIT{4} W DIGIT{2} DIGIT{1}
+        <DateBegin> DIGIT{4} HYPHEN W DIGIT{2} => DateEnd
             {
-                sError = @"ISO8601 Week Date not supported yet.";
-                break;
+                int sYear      = NJIntFromString(sMatch, 4);
+                int sWeek      = NJIntFromString(sMatch + 6, 2);
+                int sDayOfYear = NJDayOfYearFromWeekDate(&sYear, sWeek, 1);
+                NJGetGregorianDateFromOrdinalDate(&sGregorianDate, sYear, sDayOfYear);
+                continue;
             }
 
-        <DateBegin> DIGIT{4} W DIGIT{2}
+        <DateBegin> DIGIT{4} W DIGIT{2} DIGIT{1} => DateEnd
             {
-                sError = @"ISO8601 Week Date not supported yet.";
-                break;
+                int sYear      = NJIntFromString(sMatch, 4);
+                int sWeek      = NJIntFromString(sMatch + 5, 2);
+                int sDayOfWeek = NJIntFromString(sMatch + 7, 1);
+                int sDayOfYear = NJDayOfYearFromWeekDate(&sYear, sWeek, sDayOfWeek);
+                NJGetGregorianDateFromOrdinalDate(&sGregorianDate, sYear, sDayOfYear);
+                continue;
             }
 
-        <DateBegin> SIGN DIGIT{4,} HYPHEN DIGIT{3}
+        <DateBegin> DIGIT{4} W DIGIT{2} => DateEnd
             {
-                sError = @"ISO8601 Ordinal Date not supported yet.";
-                break;
+                int sYear      = NJIntFromString(sMatch, 4);
+                int sWeek      = NJIntFromString(sMatch + 5, 2);
+                int sDayOfYear = NJDayOfYearFromWeekDate(&sYear, sWeek, 1);
+                NJGetGregorianDateFromOrdinalDate(&sGregorianDate, sYear, sDayOfYear);
+                continue;
             }
 
-        <DateBegin> SIGN DIGIT{4,} DIGIT{3}
+        <DateBegin> SIGN DIGIT{4,} HYPHEN W DIGIT{2} HYPHEN DIGIT{1} => DateEnd
             {
-                sError = @"ISO8601 Ordinal Date not supported yet.";
-                break;
+                int sYearDigits = sCursor - sMatch - 7;
+                int sYear       = NJIntFromString(sMatch + 1, sYearDigits) * ((*sMatch == '+') ? 1 : -1);
+                int sWeek       = NJIntFromString(sMatch + sYearDigits + 3, 2);
+                int sDayOfWeek  = NJIntFromString(sMatch + sYearDigits + 6, 1);
+                int sDayOfYear  = NJDayOfYearFromWeekDate(&sYear, sWeek, sDayOfWeek);
+                NJGetGregorianDateFromOrdinalDate(&sGregorianDate, sYear, sDayOfYear);
+                continue;
             }
 
-        <DateBegin> SIGN DIGIT{4,} HYPHEN W DIGIT{2} HYPHEN DIGIT{1}
+        <DateBegin> SIGN DIGIT{4,} HYPHEN W DIGIT{2} => DateEnd
             {
-                sError = @"ISO8601 Week Date not supported yet.";
-                break;
+                int sYearDigits = sCursor - sMatch - 5;
+                int sYear       = NJIntFromString(sMatch + 1, sYearDigits) * ((*sMatch == '+') ? 1 : -1);
+                int sWeek       = NJIntFromString(sMatch + sYearDigits + 3, 2);
+                int sDayOfYear  = NJDayOfYearFromWeekDate(&sYear, sWeek, 1);
+                NJGetGregorianDateFromOrdinalDate(&sGregorianDate, sYear, sDayOfYear);
+                continue;
             }
 
-        <DateBegin> SIGN DIGIT{4,} HYPHEN W DIGIT{2}
+        <DateBegin> SIGN DIGIT{4,} W DIGIT{2} DIGIT{1} => DateEnd
             {
-                sError = @"ISO8601 Week Date not supported yet.";
-                break;
+                int sYearDigits = sCursor - sMatch - 5;
+                int sYear       = NJIntFromString(sMatch + 1, sYearDigits) * ((*sMatch == '+') ? 1 : -1);
+                int sWeek       = NJIntFromString(sMatch + sYearDigits + 2, 2);
+                int sDayOfWeek  = NJIntFromString(sMatch + sYearDigits + 4, 1);
+                int sDayOfYear  = NJDayOfYearFromWeekDate(&sYear, sWeek, sDayOfWeek);
+                NJGetGregorianDateFromOrdinalDate(&sGregorianDate, sYear, sDayOfYear);
+                continue;
             }
 
-        <DateBegin> SIGN DIGIT{4,} W DIGIT{2} DIGIT{1}
+        <DateBegin> SIGN DIGIT{4,} W DIGIT{2} => DateEnd
             {
-                sError = @"ISO8601 Week Date not supported yet.";
-                break;
-            }
-
-        <DateBegin> SIGN DIGIT{4,} W DIGIT{2}
-            {
-                sError = @"ISO8601 Week Date not supported yet.";
-                break;
+                int sYearDigits = sCursor - sMatch - 4;
+                int sYear       = NJIntFromString(sMatch + 1, sYearDigits) * ((*sMatch == '+') ? 1 : -1);
+                int sWeek       = NJIntFromString(sMatch + sYearDigits + 2, 2);
+                int sDayOfYear  = NJDayOfYearFromWeekDate(&sYear, sWeek, 1);
+                NJGetGregorianDateFromOrdinalDate(&sGregorianDate, sYear, sDayOfYear);
+                continue;
             }
 
 
