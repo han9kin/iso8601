@@ -19,7 +19,7 @@
 		CFB1B8211519734900176C89 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB1B8011519734800176C89 /* UIKit.framework */; };
 		CFB1B8221519734900176C89 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFB1B8031519734800176C89 /* Foundation.framework */; };
 		CFB1B82A1519734900176C89 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFB1B8281519734900176C89 /* InfoPlist.strings */; };
-		CFB1B82D1519734900176C89 /* NJISO8601Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B82C1519734900176C89 /* NJISO8601Tests.m */; };
+		CFB1B82D1519734900176C89 /* NJISO8601FormatterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B82C1519734900176C89 /* NJISO8601FormatterTests.m */; };
 		CFB1B8381519736C00176C89 /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B8371519736C00176C89 /* ISO8601DateFormatter.m */; };
 		CFB1B85B1519AFE300176C89 /* NJISO8601Parser.re in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B85A1519AFE300176C89 /* NJISO8601Parser.re */; };
 		CFB1B85C1519B6C600176C89 /* NJISO8601Formatter.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB1B83B1519738300176C89 /* NJISO8601Formatter.m */; };
@@ -70,8 +70,8 @@
 		CFB1B81F1519734900176C89 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		CFB1B8271519734900176C89 /* NJISO8601Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NJISO8601Tests-Info.plist"; sourceTree = "<group>"; };
 		CFB1B8291519734900176C89 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CFB1B82B1519734900176C89 /* NJISO8601Tests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NJISO8601Tests.h; sourceTree = "<group>"; };
-		CFB1B82C1519734900176C89 /* NJISO8601Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NJISO8601Tests.m; sourceTree = "<group>"; };
+		CFB1B82B1519734900176C89 /* NJISO8601FormatterTests.h */ = {isa = PBXFileReference; path = NJISO8601FormatterTests.h; sourceTree = "<group>"; };
+		CFB1B82C1519734900176C89 /* NJISO8601FormatterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NJISO8601FormatterTests.m; sourceTree = "<group>"; };
 		CFB1B8361519736C00176C89 /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISO8601DateFormatter.h; sourceTree = "<group>"; };
 		CFB1B8371519736C00176C89 /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISO8601DateFormatter.m; sourceTree = "<group>"; };
 		CFB1B83A1519738300176C89 /* NJISO8601Formatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NJISO8601Formatter.h; sourceTree = "<group>"; };
@@ -166,8 +166,8 @@
 		CFB1B8251519734900176C89 /* NJISO8601Tests */ = {
 			isa = PBXGroup;
 			children = (
-				CFB1B82B1519734900176C89 /* NJISO8601Tests.h */,
-				CFB1B82C1519734900176C89 /* NJISO8601Tests.m */,
+				CFB1B82B1519734900176C89 /* NJISO8601FormatterTests.h */,
+				CFB1B82C1519734900176C89 /* NJISO8601FormatterTests.m */,
 				CFB1B8261519734900176C89 /* Supporting Files */,
 			);
 			path = NJISO8601Tests;
@@ -306,7 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CFB1B82D1519734900176C89 /* NJISO8601Tests.m in Sources */,
+				CFB1B82D1519734900176C89 /* NJISO8601FormatterTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

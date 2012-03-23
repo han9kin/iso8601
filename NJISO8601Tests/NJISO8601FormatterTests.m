@@ -1,12 +1,13 @@
-//
-//  NJISO8601Tests.m
-//  NJISO8601Tests
-//
-//  Created by 서 상혁 on 2012-03-21.
-//  Copyright (c) 2012년 NHN. All rights reserved.
-//
+/*
+ *  NJISO8601FormatterTests.m
+ *  NJISO8601FormatterTests
+ *
+ *  Created by han9kin on 2012-03-21.
+ *  Copyright (c) 2012 NHN. All rights reserved.
+ *
+ */
 
-#import "NJISO8601Tests.h"
+#import "NJISO8601FormatterTests.h"
 #import "NJISO8601Formatter.h"
 #import "ISO8601DateFormatter.h"
 
@@ -367,7 +368,7 @@ static NSString *gTestStrings[][2] =
 static NSDateFormatter *gDefaultDateFormatter = nil;
 
 
-@implementation NJISO8601Tests
+@implementation NJISO8601FormatterTests
 
 
 + (void)initialize
@@ -379,6 +380,8 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
         [gDefaultDateFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US"] autorelease]];
         [gDefaultDateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
     }
+
+    [NSTimeZone setDefaultTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:(9 * 60 * 60)]];
 }
 
 
@@ -397,128 +400,6 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
     }
 
     NSLog(@"NJISO8601Formatter Total Parse Time: %f", (CFAbsoluteTimeGetCurrent() - sTime));
-}
-
-
-- (void)testDateExpandedRepresentation
-{
-    NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
-    NSDate             *sDate;
-    NSString           *sString;
-
-    sDate = [sFormatter dateFromString:@"+12345-06-17T12:34:56,789+01:00"];
-    STAssertNotNil(sDate, @"");
-    sString = [sFormatter stringFromDate:sDate];
-    STAssertTrue([sString isEqualToString:@"+12345-06-17T11:34:57Z"], @"%@", sString);
-
-    sDate = [sFormatter dateFromString:@"+123450617T12:34:56,789+01:00"];
-    STAssertNotNil(sDate, @"");
-    sString = [sFormatter stringFromDate:sDate];
-    STAssertTrue([sString isEqualToString:@"+12345-06-17T11:34:57Z"], @"%@", sString);
-
-    sDate = [sFormatter dateFromString:@"+12345-06T12:34:56,789+01:00"];
-    STAssertNotNil(sDate, @"");
-    sString = [sFormatter stringFromDate:sDate];
-    STAssertTrue([sString isEqualToString:@"+12345-06-01T11:34:57Z"], @"%@", sString);
-
-    sDate = [sFormatter dateFromString:@"+12345T12:34:56,789+01:00"];
-    STAssertNotNil(sDate, @"");
-    sString = [sFormatter stringFromDate:sDate];
-    STAssertTrue([sString isEqualToString:@"+12345-01-01T11:34:57Z"], @"%@", sString);
-
-    sDate = [sFormatter dateFromString:@"+12345-001T12:34:56,789+01:00"];
-    STAssertNotNil(sDate, @"");
-    sString = [sFormatter stringFromDate:sDate];
-    STAssertTrue([sString isEqualToString:@"+12345-01-01T11:34:57Z"], @"%@", sString);
-
-    [sFormatter setDateStyle:NJISO8601FormatterDateStyleCalendarBasic];
-    sString = [sFormatter stringFromDate:sDate];
-    STAssertTrue([sString isEqualToString:@"+123450101T11:34:57Z"], @"%@", sString);
-
-    [sFormatter setDateStyle:NJISO8601FormatterDateStyleOrdinalBasic];
-    STAssertNil([sFormatter stringFromDate:sDate], @"Basic Format Not Allowed");
-
-    [sFormatter setDateStyle:NJISO8601FormatterDateStyleWeekBasic];
-    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"+12344-001T12:34:56,789+01:00"]];
-    STAssertTrue([sString isEqualToString:@"+12343W526T11:34:57Z"], @"%@", sString);
-}
-
-
-- (void)testError
-{
-    NSString *sErrorStrings[] = {
-        @"2011-02-07T24:01:01Z",
-        @"2011-02-07T19:03:60Z",
-        @"2011-02-07T19:60:46Z",
-        @"2011-02-07T24:03:46Z",
-        @"2011-02-00T19:03:46Z",
-        @"2011-02-32T19:03:46Z",
-        @"2011-13-07T19:03:46Z",
-        @"2011-00-07T19:03:46Z",
-        @"2011-02-07T19:03:46KST",
-        @"2011-02-07T19:03:6Z",
-        @"2011-02-07T19:03:6",
-        @"2011-02-07T19:1",
-        @"2011-02-07T1",
-        @"2011-02-07T",
-        @"2011-02-1T",
-        @"2011-02-1",
-        @"2011-0T",
-        @"2011-0",
-        @"201",
-        @"MERONG",
-        @"2011-00",
-        @"2011-366T",
-        @"2011-000",
-        @"2011000T",
-        @"2011366",
-        @"+2011001T",
-        nil
-    };
-
-    NSString *sUnsupportedStrings[] = {
-        @"2011-12-30/",
-        @"2011-12-30T12:34/",
-        @"P",
-        @"R",
-        nil,
-    };
-
-    NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
-    NSString           *sError;
-    id                  sObject;
-
-
-    for (int i = 0; sErrorStrings[i]; i++)
-    {
-        NSString *sError = nil;
-        id        sObject;
-
-        STAssertNil([sFormatter dateFromString:sErrorStrings[i]], @"%@ => nil", sErrorStrings[i]);
-        STAssertFalse([sFormatter getObjectValue:NULL forString:sErrorStrings[i] errorDescription:NULL], @"%@ => NO", sErrorStrings[i]);
-        STAssertFalse([sFormatter getObjectValue:&sObject forString:sErrorStrings[i] errorDescription:NULL], @"%@ => NO", sErrorStrings[i]);
-        STAssertFalse([sFormatter getObjectValue:&sObject forString:sErrorStrings[i] errorDescription:&sError], @"%@ => NO", sErrorStrings[i]);
-        STAssertNotNil(sError, @"");
-    }
-
-    for (int i = 0; sUnsupportedStrings[i]; i++)
-    {
-        sError = nil;
-
-        STAssertNil([sFormatter dateFromString:sUnsupportedStrings[i]], @"%@ => nil", sUnsupportedStrings[i]);
-        STAssertFalse([sFormatter getObjectValue:NULL forString:sUnsupportedStrings[i] errorDescription:NULL], @"%@ => NO", sUnsupportedStrings[i]);
-        STAssertFalse([sFormatter getObjectValue:&sObject forString:sUnsupportedStrings[i] errorDescription:NULL], @"%@ => NO", sUnsupportedStrings[i]);
-        STAssertFalse([sFormatter getObjectValue:&sObject forString:sUnsupportedStrings[i] errorDescription:&sError], @"%@ => NO", sUnsupportedStrings[i]);
-        STAssertNotNil(sError, @"");
-        STAssertTrue([sError rangeOfString:@"not supported"].location != NSNotFound, @"%@ => %@", sUnsupportedStrings[i], sError);
-    }
-
-    sError = nil;
-
-    STAssertNil([sFormatter dateFromString:nil], @"");
-    STAssertFalse([sFormatter getObjectValue:NULL forString:nil errorDescription:NULL], @"");
-    STAssertFalse([sFormatter getObjectValue:NULL forString:nil errorDescription:&sError], @"");
-    STAssertNotNil(sError, @"");
 }
 
 
@@ -756,6 +637,128 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
     STAssertTrue([sString isEqualToString:@"2012W011T00:00:00Z"], @"%@", sString);
     sString = [sFormatter stringFromDate:[sFormatter dateFromString:sString]];
     STAssertTrue([sString isEqualToString:@"2012W011T00:00:00Z"], @"%@", sString);
+}
+
+
+- (void)testDateExpandedRepresentation
+{
+    NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
+    NSDate             *sDate;
+    NSString           *sString;
+
+    sDate = [sFormatter dateFromString:@"+12345-06-17T12:34:56,789+01:00"];
+    STAssertNotNil(sDate, @"");
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+12345-06-17T11:34:57Z"], @"%@", sString);
+
+    sDate = [sFormatter dateFromString:@"+123450617T12:34:56,789+01:00"];
+    STAssertNotNil(sDate, @"");
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+12345-06-17T11:34:57Z"], @"%@", sString);
+
+    sDate = [sFormatter dateFromString:@"+12345-06T12:34:56,789+01:00"];
+    STAssertNotNil(sDate, @"");
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+12345-06-01T11:34:57Z"], @"%@", sString);
+
+    sDate = [sFormatter dateFromString:@"+12345T12:34:56,789+01:00"];
+    STAssertNotNil(sDate, @"");
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+12345-01-01T11:34:57Z"], @"%@", sString);
+
+    sDate = [sFormatter dateFromString:@"+12345-001T12:34:56,789+01:00"];
+    STAssertNotNil(sDate, @"");
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+12345-01-01T11:34:57Z"], @"%@", sString);
+
+    [sFormatter setDateStyle:NJISO8601FormatterDateStyleCalendarBasic];
+    sString = [sFormatter stringFromDate:sDate];
+    STAssertTrue([sString isEqualToString:@"+123450101T11:34:57Z"], @"%@", sString);
+
+    [sFormatter setDateStyle:NJISO8601FormatterDateStyleOrdinalBasic];
+    STAssertNil([sFormatter stringFromDate:sDate], @"Basic Format Not Allowed");
+
+    [sFormatter setDateStyle:NJISO8601FormatterDateStyleWeekBasic];
+    sString = [sFormatter stringFromDate:[sFormatter dateFromString:@"+12344-001T12:34:56,789+01:00"]];
+    STAssertTrue([sString isEqualToString:@"+12343W526T11:34:57Z"], @"%@", sString);
+}
+
+
+- (void)testError
+{
+    NSString *sErrorStrings[] = {
+        @"2011-02-07T24:01:01Z",
+        @"2011-02-07T19:03:60Z",
+        @"2011-02-07T19:60:46Z",
+        @"2011-02-07T24:03:46Z",
+        @"2011-02-00T19:03:46Z",
+        @"2011-02-32T19:03:46Z",
+        @"2011-13-07T19:03:46Z",
+        @"2011-00-07T19:03:46Z",
+        @"2011-02-07T19:03:46KST",
+        @"2011-02-07T19:03:6Z",
+        @"2011-02-07T19:03:6",
+        @"2011-02-07T19:1",
+        @"2011-02-07T1",
+        @"2011-02-07T",
+        @"2011-02-1T",
+        @"2011-02-1",
+        @"2011-0T",
+        @"2011-0",
+        @"201",
+        @"MERONG",
+        @"2011-00",
+        @"2011-366T",
+        @"2011-000",
+        @"2011000T",
+        @"2011366",
+        @"+2011001T",
+        nil
+    };
+
+    NSString *sUnsupportedStrings[] = {
+        @"2011-12-30/",
+        @"2011-12-30T12:34/",
+        @"P",
+        @"R",
+        nil,
+    };
+
+    NJISO8601Formatter *sFormatter = [[[NJISO8601Formatter alloc] init] autorelease];
+    NSString           *sError;
+    id                  sObject;
+
+
+    for (int i = 0; sErrorStrings[i]; i++)
+    {
+        NSString *sError = nil;
+        id        sObject;
+
+        STAssertNil([sFormatter dateFromString:sErrorStrings[i]], @"%@ => nil", sErrorStrings[i]);
+        STAssertFalse([sFormatter getObjectValue:NULL forString:sErrorStrings[i] errorDescription:NULL], @"%@ => NO", sErrorStrings[i]);
+        STAssertFalse([sFormatter getObjectValue:&sObject forString:sErrorStrings[i] errorDescription:NULL], @"%@ => NO", sErrorStrings[i]);
+        STAssertFalse([sFormatter getObjectValue:&sObject forString:sErrorStrings[i] errorDescription:&sError], @"%@ => NO", sErrorStrings[i]);
+        STAssertNotNil(sError, @"");
+    }
+
+    for (int i = 0; sUnsupportedStrings[i]; i++)
+    {
+        sError = nil;
+
+        STAssertNil([sFormatter dateFromString:sUnsupportedStrings[i]], @"%@ => nil", sUnsupportedStrings[i]);
+        STAssertFalse([sFormatter getObjectValue:NULL forString:sUnsupportedStrings[i] errorDescription:NULL], @"%@ => NO", sUnsupportedStrings[i]);
+        STAssertFalse([sFormatter getObjectValue:&sObject forString:sUnsupportedStrings[i] errorDescription:NULL], @"%@ => NO", sUnsupportedStrings[i]);
+        STAssertFalse([sFormatter getObjectValue:&sObject forString:sUnsupportedStrings[i] errorDescription:&sError], @"%@ => NO", sUnsupportedStrings[i]);
+        STAssertNotNil(sError, @"");
+        STAssertTrue([sError rangeOfString:@"not supported"].location != NSNotFound, @"%@ => %@", sUnsupportedStrings[i], sError);
+    }
+
+    sError = nil;
+
+    STAssertNil([sFormatter dateFromString:nil], @"");
+    STAssertFalse([sFormatter getObjectValue:NULL forString:nil errorDescription:NULL], @"");
+    STAssertFalse([sFormatter getObjectValue:NULL forString:nil errorDescription:&sError], @"");
+    STAssertNotNil(sError, @"");
 }
 
 
