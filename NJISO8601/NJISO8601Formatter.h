@@ -14,10 +14,12 @@ typedef enum
 {
     NJISO8601FormatterDateStyleCalendarExtended = 0,    /* Default           (YYYY-MM-DD) */
     NJISO8601FormatterDateStyleCalendarBasic,           /*                   (YYYYMMDD)   */
+#if 0
     NJISO8601FormatterDateStyleOrdinalExtended,         /* Not supported yet (YYYY-DDD)   */
     NJISO8601FormatterDateStyleOrdinalBasic,            /* Not supported yet (YYYYDDD)    */
     NJISO8601FormatterDateStyleWeekExtended,            /* Not supported yet (YYYY-Www-D) */
     NJISO8601FormatterDateStyleWeekBasic,               /* Not supported yet (YYYYWwwD)   */
+#endif
 } NJISO8601FormatterDateStyle;
 
 
@@ -38,17 +40,25 @@ typedef enum
 } NJISO8601FormatterTimeZoneStyle;
 
 
+typedef enum
+{
+    NJISO8601FormatterFractionSeparatorComma = 0,       /* Default           (,)          */
+    NJISO8601FormatterFractionSeparatorDot,             /* Default           (.)          */
+} NJISO8601FormatterFractionSeparator;
+
+
 NSDate *NJISO8601DateFromString(NSString *aString);
 
 
 @interface NJISO8601Formatter : NSFormatter
 
 
-@property(nonatomic, assign) NJISO8601FormatterDateStyle      dateStyle;
-@property(nonatomic, assign) NJISO8601FormatterTimeStyle      timeStyle;
-@property(nonatomic, assign) int                              timeFractionDigits;
-@property(nonatomic, assign) NJISO8601FormatterTimeZoneStyle  timeZoneStyle;
-@property(nonatomic, retain) NSTimeZone                      *timeZone;
+@property(nonatomic, assign) NJISO8601FormatterDateStyle          dateStyle;
+@property(nonatomic, assign) NJISO8601FormatterTimeStyle          timeStyle;
+@property(nonatomic, assign) NJISO8601FormatterTimeZoneStyle      timeZoneStyle;
+@property(nonatomic, assign) NJISO8601FormatterFractionSeparator  fractionSeparator;
+@property(nonatomic, assign) int                                  fractionDigits;
+@property(nonatomic, retain) NSTimeZone                          *timeZone;
 
 
 - (NSDate *)dateFromString:(NSString *)aString;

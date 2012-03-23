@@ -65,21 +65,119 @@ NSDate *NJISO8601DateFromString(NSString *aString)
 }
 
 
-@implementation NJISO8601Formatter
+@interface NJISO8601Formatter ()
 {
-    NJISO8601FormatterDateStyle      mDateStyle;
-    NJISO8601FormatterTimeStyle      mTimeStyle;
-    int                              mTimeFractionDigits;
-    NJISO8601FormatterTimeZoneStyle  mTimeZoneStyle;
-    NSTimeZone                      *mTimeZone;
+    NJISO8601FormatterDateStyle          mDateStyle;
+    NJISO8601FormatterTimeStyle          mTimeStyle;
+    NJISO8601FormatterTimeZoneStyle      mTimeZoneStyle;
+    NJISO8601FormatterFractionSeparator  mFractionSeparator;
+    int                                  mFractionDigits;
+    NSTimeZone                          *mTimeZone;
+}
+
+@end
+
+
+@implementation NJISO8601Formatter (Formatting)
+
+
+- (void)appendDateStringWithYear:(int)aYear month:(int)aMonth day:(int)aDay toString:(NSMutableString *)aString
+{
+    if ((aYear < 0) || (aYear > 9999))
+    {
+        [aString appendFormat:@"%+05d", aYear];
+    }
+    else
+    {
+        [aString appendFormat:@"%04d", aYear];
+    }
+
+    if (mDateStyle == NJISO8601FormatterDateStyleCalendarExtended)
+    {
+        [aString appendFormat:@"-%02d-%02d", aMonth, aDay];
+    }
+    else
+    {
+        [aString appendFormat:@"%02d%02d", aMonth, aDay];
+    }
 }
 
 
-@synthesize dateStyle          = mDateStyle;
-@synthesize timeStyle          = mTimeStyle;
-@synthesize timeFractionDigits = mTimeFractionDigits;
-@synthesize timeZoneStyle      = mTimeZoneStyle;
-@synthesize timeZone           = mTimeZone;
+- (void)appendTimeStringWithHour:(int)aHour minute:(int)aMinute second:(double)aSecond toString:(NSMutableString *)aString
+{
+    if (mTimeStyle == NJISO8601FormatterTimeStyleExtended)
+    {
+        [aString appendFormat:@"T%02d:%02d:", aHour, aMinute];
+    }
+    else
+    {
+        [aString appendFormat:@"T%02d%02d", aHour, aMinute];
+    }
+
+    if (mFractionDigits > 0)
+    {
+        [aString appendFormat:@"%0*.*lf", (mFractionDigits + 3), mFractionDigits, aSecond];
+
+        if (mFractionSeparator == NJISO8601FormatterFractionSeparatorComma)
+        {
+            [aString replaceCharactersInRange:NSMakeRange([aString length] - mFractionDigits - 1, 1) withString:@","];
+        }
+    }
+    else
+    {
+        [aString appendFormat:@"%02.0lf", aSecond];
+    }
+}
+
+
+- (void)appendTimeZoneStringForTimeZone:(NSTimeZone *)aTimeZone toString:(NSMutableString *)aString
+{
+    if (mTimeZoneStyle == NJISO8601FormatterTimeZoneStyleNone)
+    {
+    }
+    else if (mTimeZoneStyle == NJISO8601FormatterTimeZoneStyleUTC)
+    {
+        [aString appendFormat:@"Z"];
+    }
+    else
+    {
+        NSInteger sMinutesFromGMT = [aTimeZone secondsFromGMT] / 60;
+
+        if (sMinutesFromGMT < 0)
+        {
+            sMinutesFromGMT *= -1;
+
+            [aString appendFormat:@"-%02d", (sMinutesFromGMT / 60)];
+        }
+        else
+        {
+            [aString appendFormat:@"+%02d", (sMinutesFromGMT / 60)];
+        }
+
+        if (mTimeZoneStyle == NJISO8601FormatterTimeZoneStyleExtended)
+        {
+            [aString appendFormat:@":%02d", (sMinutesFromGMT % 60)];
+        }
+        else
+        {
+            [aString appendFormat:@"%02d", (sMinutesFromGMT % 60)];
+        }
+    }
+}
+
+
+@end
+
+
+@implementation NJISO8601Formatter
+
+
+@synthesize dateStyle         = mDateStyle;
+@synthesize timeStyle         = mTimeStyle;
+@synthesize timeZoneStyle     = mTimeZoneStyle;
+@synthesize fractionSeparator = mFractionSeparator;
+@synthesize fractionDigits    = mFractionDigits;
+@synthesize timeZone          = mTimeZone;
 
 
 - (void)dealloc
@@ -135,92 +233,12 @@ NSDate *NJISO8601DateFromString(NSString *aString)
 
         sGregorianDate = CFAbsoluteTimeGetGregorianDate([aDate timeIntervalSinceReferenceDate], (CFTimeZoneRef)sTimeZone);
 
-        if ((sGregorianDate.year < 0) || (sGregorianDate.year > 9999))
+        [self appendDateStringWithYear:sGregorianDate.year month:sGregorianDate.month day:sGregorianDate.day toString:sString];
+
+        if (mTimeStyle != NJISO8601FormatterTimeStyleNone)
         {
-            [sString appendFormat:@"%+05d", sGregorianDate.year];
-        }
-        else
-        {
-            [sString appendFormat:@"%04d", sGregorianDate.year];
-        }
-
-        switch (mDateStyle)
-        {
-            case NJISO8601FormatterDateStyleCalendarExtended:
-                [sString appendFormat:@"-%02d-%02d", sGregorianDate.month, sGregorianDate.day];
-                break;
-            case NJISO8601FormatterDateStyleCalendarBasic:
-                [sString appendFormat:@"%02d%02d", sGregorianDate.month, sGregorianDate.day];
-                break;
-            default:
-                /*
-                 * not supported date style
-                 */
-                return nil;
-                break;
-        }
-
-        switch (mTimeStyle)
-        {
-            case NJISO8601FormatterTimeStyleExtended:
-                [sString appendFormat:@"T%02d:%02d:", sGregorianDate.hour, sGregorianDate.minute];
-                break;
-            case NJISO8601FormatterTimeStyleBasic:
-                [sString appendFormat:@"T%02d%02d", sGregorianDate.hour, sGregorianDate.minute];
-                break;
-            case NJISO8601FormatterTimeStyleNone:
-                /*
-                 * skip remaining part
-                 */
-                return sString;
-                break;
-        }
-
-        if (mTimeFractionDigits > 0)
-        {
-            NSString *sSecondString = [NSString stringWithFormat:@"%0*.*lf", (mTimeFractionDigits + 3), mTimeFractionDigits, sGregorianDate.second];
-
-            [sString appendFormat:@"%@,%@", [sSecondString substringToIndex:2], [sSecondString substringFromIndex:3]];
-        }
-        else
-        {
-            [sString appendFormat:@"%02.0lf", sGregorianDate.second];
-        }
-
-        switch (mTimeZoneStyle)
-        {
-            case NJISO8601FormatterTimeZoneStyleUTC:
-                [sString appendFormat:@"Z"];
-                break;
-
-            case NJISO8601FormatterTimeZoneStyleExtended:
-            case NJISO8601FormatterTimeZoneStyleBasic:
-                {
-                    NSInteger sOffset = [sTimeZone secondsFromGMT] / 60; /* minutes from GMT */
-
-                    if (sOffset < 0)
-                    {
-                        [sString appendFormat:@"-"];
-                        sOffset *= -1;
-                    }
-                    else
-                    {
-                        [sString appendFormat:@"+"];
-                    }
-
-                    [sString appendFormat:@"%02d", (sOffset / 60)];
-
-                    if (mTimeZoneStyle == NJISO8601FormatterTimeZoneStyleExtended)
-                    {
-                        [sString appendFormat:@":"];
-                    }
-
-                    [sString appendFormat:@"%02d", (sOffset % 60)];
-                }
-                break;
-
-            case NJISO8601FormatterTimeZoneStyleNone:
-                break;
+            [self appendTimeStringWithHour:sGregorianDate.hour minute:sGregorianDate.minute second:sGregorianDate.second toString:sString];
+            [self appendTimeZoneStringForTimeZone:sTimeZone toString:sString];
         }
 
         return sString;

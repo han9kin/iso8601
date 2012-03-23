@@ -22,14 +22,14 @@ static NSString *gTestStrings[][2] =
     { @"2011-02-07T19:03:46,123456+08",    @"2011-02-07T11:03:46,123+0000" },
     { @"2011-02-07T19:03:46,123456Z",      @"2011-02-07T19:03:46,123+0000" },
 
-    { @"2011-02-07T19:03:46,123+09:00",    @"2011-02-07T10:03:46,123+0000" },
-    { @"2011-02-07T19:03:46,123+0900",     @"2011-02-07T10:03:46,123+0000" },
-    { @"2011-02-07T19:03:46,123+09",       @"2011-02-07T10:03:46,123+0000" },
-    { @"2011-02-07T19:03:46,123",          @"2011-02-07T10:03:46,123+0000" },
-    { @"2011-02-07T19:03:46,123+08:00",    @"2011-02-07T11:03:46,123+0000" },
-    { @"2011-02-07T19:03:46,123+0800",     @"2011-02-07T11:03:46,123+0000" },
-    { @"2011-02-07T19:03:46,123+08",       @"2011-02-07T11:03:46,123+0000" },
-    { @"2011-02-07T19:03:46,123Z",         @"2011-02-07T19:03:46,123+0000" },
+    { @"2011-02-07T19:03:46.123+09:00",    @"2011-02-07T10:03:46,123+0000" },
+    { @"2011-02-07T19:03:46.123+0900",     @"2011-02-07T10:03:46,123+0000" },
+    { @"2011-02-07T19:03:46.123+09",       @"2011-02-07T10:03:46,123+0000" },
+    { @"2011-02-07T19:03:46.123",          @"2011-02-07T10:03:46,123+0000" },
+    { @"2011-02-07T19:03:46.123+08:00",    @"2011-02-07T11:03:46,123+0000" },
+    { @"2011-02-07T19:03:46.123+0800",     @"2011-02-07T11:03:46,123+0000" },
+    { @"2011-02-07T19:03:46.123+08",       @"2011-02-07T11:03:46,123+0000" },
+    { @"2011-02-07T19:03:46.123Z",         @"2011-02-07T19:03:46,123+0000" },
 
     { @"2011-02-07T190346,123+09:00",      @"2011-02-07T10:03:46,123+0000" },
     { @"2011-02-07T190346,123+0900",       @"2011-02-07T10:03:46,123+0000" },
@@ -527,17 +527,21 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
         sString = [sFormatter stringFromDate:sDate];
         STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T19:03:46"], @"%@", sString);
 
-        [sFormatter setTimeFractionDigits:6];
+        [sFormatter setFractionDigits:6];
         sString = [sFormatter stringFromDate:sDate];
         STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T19:03:46,123456"], @"%@", sString);
 
-        [sFormatter setTimeFractionDigits:4];
+        [sFormatter setFractionDigits:4];
         sString = [sFormatter stringFromDate:sDate];
         STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T19:03:46,1235"], @"%@", sString);
 
+        [sFormatter setFractionSeparator:NJISO8601FormatterFractionSeparatorDot];
+        sString = [sFormatter stringFromDate:sDate];
+        STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T19:03:46.1235"], @"%@", sString);
+
         [sFormatter setTimeStyle:NJISO8601FormatterTimeStyleBasic];
         sString = [sFormatter stringFromDate:sDate];
-        STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T190346,1235"], @"%@", sString);
+        STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"2011-02-07T190346.1235"], @"%@", sString);
 
         [sFormatter setTimeStyle:NJISO8601FormatterTimeStyleNone];
         sString = [sFormatter stringFromDate:sDate];
@@ -546,22 +550,6 @@ static NSDateFormatter *gDefaultDateFormatter = nil;
         [sFormatter setDateStyle:NJISO8601FormatterDateStyleCalendarBasic];
         sString = [sFormatter stringFromDate:sDate];
         STAssertTrue([[sFormatter stringFromDate:sDate] isEqualToString:@"20110207"], @"%@", sString);
-
-        [sFormatter setDateStyle:NJISO8601FormatterDateStyleOrdinalExtended];
-        sString = [sFormatter stringFromDate:sDate];
-        STAssertNil(sString, @"not supported yet");
-
-        [sFormatter setDateStyle:NJISO8601FormatterDateStyleOrdinalBasic];
-        sString = [sFormatter stringFromDate:sDate];
-        STAssertNil(sString, @"not supported yet");
-
-        [sFormatter setDateStyle:NJISO8601FormatterDateStyleWeekExtended];
-        sString = [sFormatter stringFromDate:sDate];
-        STAssertNil(sString, @"not supported yet");
-
-        [sFormatter setDateStyle:NJISO8601FormatterDateStyleWeekBasic];
-        sString = [sFormatter stringFromDate:sDate];
-        STAssertNil(sString, @"not supported yet");
     }
     else
     {

@@ -142,7 +142,7 @@ id NJISO8601ParseString(NSString *aString, NSString **aError)
 
         HYPHEN  = "-";
         COLON   = ":";
-        COMMA   = ",";
+        COMMA   = (","|".");
         SOLIDUS = "/";
 
         D       = "D";
