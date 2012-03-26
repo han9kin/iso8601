@@ -26,6 +26,55 @@ static BOOL NJIsLeapYear(int aYear)
 }
 
 
+static int NJDayOfYearFromCalendarDate(int aYear, int aMonth, int aDay)
+{
+    static int sDays365[] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
+    static int sDays366[] = { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335 };
+
+    NSCParameterAssert(aMonth >= 1);
+    NSCParameterAssert(aMonth <= 12);
+
+    if (NJIsLeapYear(aYear))
+    {
+        return sDays366[aMonth - 1] + aDay;
+    }
+    else
+    {
+        return sDays365[aMonth - 1] + aDay;
+    }
+}
+
+
+static int NJWeekOfYearFromCalendarDate(int *aYear, int aMonth, int aDay, int aDayOfWeek)
+{
+    /*
+     * Algorithm from http://en.wikipedia.org/wiki/Talk:ISO_week_date#Algorithms
+     */
+
+    int sThursday;
+    int sThursdayOrdinal;
+
+    sThursday = aDay + 4 - aDayOfWeek;
+
+    if ((aMonth == 12) && (sThursday > 31))
+    {
+        *aYear    += 1;
+        aMonth     = 1;
+        sThursday -= 31;
+    }
+    else if ((aMonth == 1) && (sThursday < 1))
+    {
+        *aYear    -= 1;
+        aMonth     = 12;
+        sThursday += 31;
+    }
+
+    sThursdayOrdinal = NJDayOfYearFromCalendarDate(*aYear, aMonth, sThursday);
+
+    return 1 + (sThursdayOrdinal - 1) / 7;
+}
+
+
 static BOOL NJISO8601GetObjectFromString(id *aObject, NSString *aString, NSString **aError)
 {
     NSString *sError = nil;
@@ -96,39 +145,13 @@ NSDate *NJISO8601DateFromString(NSString *aString)
 
 - (BOOL)appendDateStringWithYear:(int)aYear month:(int)aMonth day:(int)aDay absoluteTime:(CFAbsoluteTime)aAbsoluteTime timeZone:(CFTimeZoneRef)aTimeZone toString:(NSMutableString *)aString
 {
-    int sWeekOfYear;
     int sDayOfWeek;
+    int sWeekOfYear;
 
     if ((mDateStyle == NJISO8601FormatterDateStyleWeekExtended) || (mDateStyle == NJISO8601FormatterDateStyleWeekBasic))
     {
-        /*
-         * Algorithm from http://en.wikipedia.org/wiki/Talk:ISO_week_date#Algorithms
-         */
-
-        static int sDays365[] = { 0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334 };
-        static int sDays366[] = { 0, 31, 60, 91, 121, 152, 182, 213, 244, 274, 305, 335 };
-
-        int sThursday;
-        int sThursdayOrdinal;
-
-        sDayOfWeek = CFAbsoluteTimeGetDayOfWeek(aAbsoluteTime, aTimeZone);
-        sThursday  = aDay + 4 - sDayOfWeek;
-
-        if ((aMonth == 12) && (sThursday > 31))
-        {
-            aYear     += 1;
-            aMonth     = 1;
-            sThursday -= 31;
-        }
-        else if ((aMonth == 1) && (sThursday < 1))
-        {
-            aYear     -= 1;
-            aMonth     = 12;
-            sThursday += 31;
-        }
-
-        sThursdayOrdinal = NJIsLeapYear(aYear) ? (sDays366[aMonth - 1] + sThursday) : (sDays365[aMonth - 1] + sThursday);
-        sWeekOfYear      = 1 + (sThursdayOrdinal - 1) / 7;
+        sDayOfWeek  = CFAbsoluteTimeGetDayOfWeek(aAbsoluteTime, aTimeZone);
+        sWeekOfYear = NJWeekOfYearFromCalendarDate(&aYear, aMonth, aDay, sDayOfWeek);
     }
 
     if ((aYear < 0) || (aYear > 9999))
@@ -154,10 +177,10 @@ NSDate *NJISO8601DateFromString(NSString *aString)
             [aString appendFormat:@"%02d%02d", aMonth, aDay];
             break;
         case NJISO8601FormatterDateStyleOrdinalExtended:
-            [aString appendFormat:@"-%03d", CFAbsoluteTimeGetDayOfYear(aAbsoluteTime, aTimeZone)];
+            [aString appendFormat:@"-%03d", NJDayOfYearFromCalendarDate(aYear, aMonth, aDay)];
             break;
         case NJISO8601FormatterDateStyleOrdinalBasic:
-            [aString appendFormat:@"%03d", CFAbsoluteTimeGetDayOfYear(aAbsoluteTime, aTimeZone)];
+            [aString appendFormat:@"%03d", NJDayOfYearFromCalendarDate(aYear, aMonth, aDay)];
             break;
         case NJISO8601FormatterDateStyleWeekExtended:
             [aString appendFormat:@"-W%02d-%d", sWeekOfYear, sDayOfWeek];
