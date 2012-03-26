@@ -1,6 +1,8 @@
 NSFormatter for ISO 8601
 ========================
 
+Cocoa NSFormatter subclass for convert ISO 8601 formatted string to NSDate, and vice versa.
+
 
 Supported Formats
 -----------------
