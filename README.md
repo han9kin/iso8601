@@ -2,6 +2,7 @@ NSFormatter for ISO 8601
 ========================
 
 A Cocoa NSFormatter subclass for converting ISO 8601 formatted string to NSDate, and vice versa.
+
 The parser is implemented using [re2c](http://re2c.org).
 Thanks to [re2c](http://re2c.org), it is much faster than NSDateFormatter is.
 
