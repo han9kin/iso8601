@@ -6,7 +6,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = "ISO8601"
-  s.version          = "0.1.6"
+  s.version          = "0.1.7"
   s.summary          = "ISO8601 formatter"
   s.homepage         = "http://github.com/PAM-AS/"
   # s.screenshots      = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = false
 
-  s.source_files = 'ISO8601/NJISO8601Formatter.{h,m}', 'ISO8601/*.re'
+  s.source_files = 'ISO8601/NJISO8601Formatter.{h,m}', 'ISO8601/NJISO8601Parser.{h,m}'
   s.resources = 'tools/*'
 
   # s.prepare_command = <<-CMD
