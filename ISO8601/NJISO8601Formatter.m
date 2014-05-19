@@ -299,6 +299,8 @@ NSDate *NJISO8601DateFromString(NSString *aString)
 
 - (NSDate *)dateFromString:(NSString *)aString
 {
+    if (!aString || [aString isKindOfClass:[NSNull class]])
+        return nil;
     return NJISO8601DateFromString(aString);
 }
 
