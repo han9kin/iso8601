@@ -14,7 +14,7 @@ Pod::Spec.new do |s|
   s.author           = { "han9kin" => "han9kin@gmail.com" }
   s.source           = { :git => "https://github.com/PAM-AS/iso8601.git", :tag => s.version.to_s }
 
-  s.requires_arc = true
+  s.requires_arc = false
 
   s.source_files = 'ISO8601/NJISO8601Formatter.{h,m}', '*.re'
 end
