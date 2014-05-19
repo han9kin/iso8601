@@ -1,3 +1,9 @@
+## Fork note
+
+This fork contains prebuilt files to work with cocoapods. This may not be optimal.
+
+There have been attemts to use cocoapods' prebuild command to fix this, with limited success. Check the podspec for attempted solution.
+
 NSFormatter for ISO 8601
 ========================
 
