@@ -6,7 +6,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = "ISO8601"
-  s.version          = "0.1.7"
+  s.version          = "0.1.8"
   s.summary          = "ISO8601 formatter"
   s.homepage         = "http://github.com/PAM-AS/"
   # s.screenshots      = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
