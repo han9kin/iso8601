@@ -16,5 +16,6 @@ Pod::Spec.new do |s|
 
   s.requires_arc = false
 
-  s.source_files = 'ISO8601/NJISO8601Formatter.{h,m}', '*.re'
+  s.source_files = 'ISO8601/NJISO8601Formatter.{h,m}'
+  s.resources = 'ISO8601/*.re'
 end
