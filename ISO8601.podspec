@@ -17,7 +17,6 @@ Pod::Spec.new do |s|
   s.requires_arc = false
 
   s.source_files = 'ISO8601/NJISO8601Formatter.{h,m}', 'ISO8601/NJISO8601Parser.{h,m}'
-  s.resources = 'tools/*'
 
   # s.prepare_command = <<-CMD
   #    ./Tools/re2c -cs -t "./ISO8601/NJISO8601Parser.h" -o "./ISO8601/NJISO8601Parser.m" ./ISO8601/NJISO8601Parser.re
