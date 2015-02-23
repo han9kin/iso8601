@@ -1,3 +1,10 @@
+## Installation
+
+NJISO8601 is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+    pod "NJISO8601"
+
 ## Fork note
 
 This fork contains prebuilt files to work with cocoapods. This may not be optimal.

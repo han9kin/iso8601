@@ -5,8 +5,8 @@
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
 #
 Pod::Spec.new do |s|
-  s.name             = "ISO8601"
-  s.version          = "0.1.9"
+  s.name             = "NJISO8601"
+  s.version          = "0.2.0"
   s.summary          = "ISO8601 formatter"
   s.homepage         = "http://github.com/PAM-AS/"
   # s.screenshots      = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
