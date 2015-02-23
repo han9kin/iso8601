@@ -5,9 +5,7 @@ it, simply add the following line to your Podfile:
 
     pod "NJISO8601"
 
-## Fork note
-
-This fork contains prebuilt files to work with cocoapods. This may not be optimal.
+Note that the generated parser is committed directly to this repository. This may not be optimal.
 
 There have been attemts to use cocoapods' prebuild command to fix this, with limited success. Check the podspec for attempted solution.
 
