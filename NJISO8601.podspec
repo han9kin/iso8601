@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.summary          = "ISO8601 formatter"
   s.homepage         = "http://github.com/PAM-AS/"
   # s.screenshots      = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
-  # s.license          = 'MIT'
+  s.license          = 'BSD'
   s.author           = { "han9kin" => "han9kin@gmail.com" }
   s.source           = { :git => "https://github.com/PAM-AS/iso8601.git", :tag => s.version.to_s }
 
