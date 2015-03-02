@@ -7,6 +7,7 @@
  */
 
 #import <Foundation/Foundation.h>
+#import "NJISO8601Parser.h"
 
 
 /*
