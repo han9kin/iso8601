@@ -8,11 +8,11 @@ Pod::Spec.new do |s|
   s.name             = "NJISO8601"
   s.version          = "0.2.0"
   s.summary          = "ISO8601 formatter"
-  s.homepage         = "http://github.com/han9kin/"
+  s.homepage         = "http://github.com/ericcj/iso8601/"
   # s.screenshots      = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'BSD'
-  s.author           = { "han9kin" => "han9kin@gmail.com" }
-  s.source           = { :git => "https://github.com/han9kin/iso8601.git", :tag => s.version.to_s }
+  s.author           = { "han9kin" => "ej@pushd.com" }
+  s.source           = { :git => "https://github.com/ericcj/iso8601.git", :tag => s.version.to_s }
 
   s.requires_arc = false
 
